@@ -33,25 +33,33 @@ public class ClienteControlador {
 
     @GetMapping({"/clientes"})
     public List<ClienteDTO> getAll() {
+        // < mover a un servicio
         List<ClienteDTO> listadoDTO    =  new ArrayList<>();
         List<Cliente> list = this.clienteServicio.listar();
 
         list.forEach((model) -> {
             listadoDTO.add(new ClienteDTO(model));
         });
-        return listadoDTO;
+
+        // />
+
+        return listadoDTO; //cambiar respuesta
     }
 
     @GetMapping({"/clientesPageQuery"})
     public ResponseEntity<Page<ClienteDTO>> getItems(@RequestParam(defaultValue = "") String consulta,@RequestParam(defaultValue = "0") int page,
                                                   @RequestParam(defaultValue = "${max_page}") int size) {
+        // < mover a un servicio
         List<Cliente> listado = clienteServicio.listar(consulta);
         List<ClienteDTO> listadoDTO    =  new ArrayList<>();
         listado.forEach((model) -> {
             listadoDTO.add(new ClienteDTO(model));
         });
         Page<ClienteDTO> bookPage = clienteServicio.findPaginated(PageRequest.of(page, size),listadoDTO);
-        return ResponseEntity.ok().body(bookPage);
+
+        // />
+
+        return ResponseEntity.ok().body(bookPage); // respuesta ok
     }
 
 
@@ -64,6 +72,7 @@ public class ClienteControlador {
 
     @PutMapping("/clienteEliminar/{id}")
     public ResponseEntity<Cliente> eliminar(@PathVariable Integer id){
+    //  mover a un servicio
         Cliente model = clienteServicio.buscarPorId(id);
         if (model == null)
             throw new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id);
@@ -71,27 +80,34 @@ public class ClienteControlador {
         model.setEstado(1);
 
         clienteServicio.guardar(model);
+    // />
         return ResponseEntity.ok(model);
     }
 
     @GetMapping("/cliente/{id}")
     public ResponseEntity<Cliente> getPorId(@PathVariable Integer id){
+        //Mover a un servicio
+        
         Cliente cliente = clienteServicio.buscarPorId(id);
         if(cliente == null)
             throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
+
+        // />
+
         return ResponseEntity.ok(cliente);
     }
 
     @PutMapping("/clientes/{id}")
     public ResponseEntity<Cliente> actualizar(@PathVariable Integer id,
                                               @RequestBody Cliente modelRecibido){
+        // mover a un servicio 
         Cliente model = clienteServicio.buscarPorId(id);
         if (model == null)
             throw new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id);
 
-
-
         clienteServicio.guardar(modelRecibido);
+
+        // />
         return ResponseEntity.ok(modelRecibido);
     }
 

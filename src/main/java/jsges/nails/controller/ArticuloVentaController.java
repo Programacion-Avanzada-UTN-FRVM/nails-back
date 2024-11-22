@@ -37,32 +37,43 @@ public class ArticuloVentaController {
 
     @GetMapping({"/articulos"})
     public List<ArticuloVentaDTO> getAll() {
-        logger.info("enta en  traer todas los articulos");
-        List<ArticuloVenta> list = modelService.listar();
+        logger.info("enta en  traer todas los articulos"); //Los comentarios de este tipo estan de mas
+        
+        // < mover a un servicio 
+        List<ArticuloVenta> list = modelService.listar(); 
         List<ArticuloVentaDTO> listadoDTO    =  new ArrayList<>();
         list.forEach((model) -> {
             listadoDTO.add(new ArticuloVentaDTO(model));
         });
-        return listadoDTO;
+        
+        // />
+
+        return listadoDTO; //esto deberia devolver otro tipo de respuesta
     }
 
     @GetMapping({"/articulosPageQuery"})
     public ResponseEntity<Page<ArticuloVentaDTO>> getItems(@RequestParam(defaultValue = "") String consulta, @RequestParam(defaultValue = "0") int page,
                                                         @RequestParam(defaultValue = "${max_page}") int size) {
+        
+        // < mover a un servicio
         List<ArticuloVenta> listado = modelService.listar(consulta);
         List<ArticuloVentaDTO> listadoDTO    =  new ArrayList<>();
         listado.forEach((model) -> {
             listadoDTO.add(new ArticuloVentaDTO(model));
         });
         Page<ArticuloVentaDTO> bookPage = modelService.findPaginated(PageRequest.of(page, size),listadoDTO);
-        return ResponseEntity.ok().body(bookPage);
+        
+        // />
+
+        return ResponseEntity.ok().body(bookPage); //esto deberia devolver otro tipo de respuesta
     }
 
 
     @PostMapping("/articulos")
     public ArticuloVenta agregar(@RequestBody ArticuloVentaDTO model){
-        logger.info("entra" );
+        logger.info("entra" ); //estos tipos de logs no van
 
+        //< mover a un servicio
         Integer idLinea = model.linea;
 
         ArticuloVenta newModel =  new ArticuloVenta();
@@ -70,12 +81,17 @@ public class ArticuloVentaController {
         newModel.setLinea(lineaService.buscarPorId(idLinea));
 
         ArticuloVenta modelSave= modelService.guardar(newModel);
-        return modelSave;
+
+        // />
+
+        return modelSave; //esto deberia devolver otro tipo de respuesta
     }
 
 
     @DeleteMapping("/articuloEliminar/{id}")
     public ResponseEntity<ArticuloVenta> eliminar(@PathVariable Integer id){
+       
+        // < mover a un servicio
         ArticuloVenta model = modelService.buscarPorId(id);
         if (model == null){
             throw new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id);
@@ -83,32 +99,43 @@ public class ArticuloVentaController {
 
         model.asEliminado();
         modelService.guardar(model);
-        return ResponseEntity.ok(model);
+        // />
+
+        return ResponseEntity.ok(model); //esta respuesta tiene pinta de que esta bien
     }
 
     @GetMapping("/articulos/{id}")
     public ResponseEntity<ArticuloVentaDTO> getPorId(@PathVariable Integer id){
+        
+        // < mover a un servicio 
         ArticuloVenta articuloVenta = modelService.buscarPorId(id);
         if(articuloVenta == null){
             throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
         }
         ArticuloVentaDTO model = new ArticuloVentaDTO(articuloVenta);
+
+        // />
         return ResponseEntity.ok(model);
     }
 
     @PutMapping("/articulos/{id}")
     public ResponseEntity<ArticuloVenta> actualizar(@PathVariable Integer id,
                                                     @RequestBody ArticuloVentaDTO modelRecibido){
-        logger.info("articulo " +modelRecibido);
+
+        //mover a un servicio
+        logger.info("articulo " +modelRecibido); //Sacar logs
         ArticuloVenta model = modelService.buscarPorId(id);
-        logger.info("articulo " +model);
+        logger.info("articulo " +model); //Sacar log
         if (model == null){
             throw new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id);
         }
-        logger.info("articulo " +model);
+        logger.info("articulo " +model); //sacar log
         model.setDenominacion(modelRecibido.denominacion);
         model.setLinea(lineaService.buscarPorId(modelRecibido.linea));
         modelService.guardar(model);
+
+        // />
+
         return ResponseEntity.ok(model);
     }
 

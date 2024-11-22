@@ -24,40 +24,50 @@ public class TipoServicioController {
     @Autowired
     private ITipoServicioService modelService;
 
-    public TipoServicioController() {
+    public TipoServicioController() { //sacar esto
 
     }
 
     @GetMapping({"/tiposServicios"})
     public List<TipoServicio> getAll() {
-        List<TipoServicio> tipoServicios = this.modelService.listar();
-        return tipoServicios;
+        List<TipoServicio> tipoServicios = this.modelService.listar(); 
+        return tipoServicios; //cambiar respuesta
     }
 
     @GetMapping({"/tiposServiciosPageQuery"})
     public ResponseEntity<Page<TipoServicio>> getItems(@RequestParam(defaultValue = "") String consulta, @RequestParam(defaultValue = "0") int page,
                                                 @RequestParam(defaultValue = "${max_page}") int size) {
+        
+        // mover a un servicio
         List<TipoServicio> listado = modelService.listar(consulta);
         Page<TipoServicio> bookPage = modelService.findPaginated(PageRequest.of(page, size),listado);
+
+        // />
+
         return ResponseEntity.ok().body(bookPage);
     }
 
 
     @PostMapping("/tiposServicios")
     public  ResponseEntity<TipoServicio>  agregar(@RequestBody TipoServicioDTO model){
+        // mover a un servicio
         List<TipoServicio> list = modelService.buscar(model.denominacion);
         if (!list.isEmpty()){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
-           // throw new RecursoNoEncontradoExcepcion("Ya existe una linea con la denominacion: " + model.denominacion);
+           // throw new RecursoNoEncontradoExcepcion("Ya existe una linea con la denominacion: " + model.denominacion); //esto es horrible
         }
 
         TipoServicio nuevoModelo = modelService.newModel(model);
+        // />
+
         return ResponseEntity.ok(nuevoModelo);
     }
 
 
     @PutMapping("/tipoServicioEliminar/{id}")
     public ResponseEntity<TipoServicio> eliminar(@PathVariable Integer id){
+        
+        //mover a un servicio
         TipoServicio model = modelService.buscarPorId(id);
         if (model == null)
             throw new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id);
@@ -65,25 +75,34 @@ public class TipoServicioController {
         model.setEstado(1);
 
         modelService.guardar(model);
+
+        // />
+
         return ResponseEntity.ok(model);
     }
 
     @GetMapping("/tiposServicios/{id}")
     public ResponseEntity<TipoServicio> getPorId(@PathVariable Integer id){
+        // mover a un servicio
         TipoServicio cliente = modelService.buscarPorId(id);
         if(cliente == null)
             throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
+
+        // />
         return ResponseEntity.ok(cliente);
     }
 
     @PutMapping("/tiposServicios/{id}")
     public ResponseEntity<TipoServicio> actualizar(@PathVariable Integer id,
                                                    @RequestBody TipoServicio modelRecibido){
+        // mover a  un servicio
         TipoServicio model = modelService.buscarPorId(id);
         if (model == null)
             throw new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id);
 
         modelService.guardar(modelRecibido);
+        // />
+                                                  
         return ResponseEntity.ok(modelRecibido);
     }
 
