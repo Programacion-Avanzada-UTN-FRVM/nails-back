@@ -1,14 +1,24 @@
 package jsges.nails.domain;
 
-import jakarta.persistence.*;
+import java.util.Objects;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
-import java.util.Objects;
 
 @Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class ItemServicio {
 
@@ -16,7 +26,6 @@ public class ItemServicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // no tiene etiqueta
     int estado;
 
     @Column(columnDefinition = "TEXT")
@@ -29,12 +38,9 @@ public class ItemServicio {
     @JoinColumn
     private Servicio servicio;
 
-    //no tiene etiqueta
     private Double precio;
 
-    // nombre del metodo !?
-    // ya usa el @Data
-    public void asEliminado() {
+    public void eliminar() {
         this.setEstado(1);
     }
 
@@ -51,16 +57,11 @@ public class ItemServicio {
         return Objects.hash(id, estado, observacion, tipoServicio, servicio);
     }
 
-    //constructor deberia ir mas arriba, esta redundante porque ya usa el @AllArgsConstructor
-    public ItemServicio() {
-
-    }
-
-    //idem arriba
     public ItemServicio(Servicio servicio ,TipoServicio tipo, Double precio,String observacion) {
         this.servicio = servicio;
         this.tipoServicio = tipo;
         this.precio = precio;
         this.observacion=observacion;
     }
+    
 }

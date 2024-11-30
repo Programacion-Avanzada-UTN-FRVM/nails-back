@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ClienteControlador {
 
-    private static final Logger logger = LoggerFactory.getLogger(ClienteControlador.class);
+    private static final Logger log = LoggerFactory.getLogger(ClienteControlador.class);
     
     @Autowired
     private IClienteService clienteServicio;
@@ -53,7 +53,6 @@ public class ClienteControlador {
         return ResponseEntity.ok().body(bookPage);
     }
 
-
     @PostMapping("/clientes")
     public ResponseEntity<?> agregar(@RequestBody Cliente cliente) {
         Cliente result;
@@ -66,7 +65,6 @@ public class ClienteControlador {
 
         return ResponseEntity.ok(result);
     }
-
 
     @PutMapping("/clienteEliminar/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Integer id) {
@@ -81,7 +79,7 @@ public class ClienteControlador {
             return ResponseEntity.internalServerError().body(e);
         }
 
-        logger.info(String.format("Cliente con id %o eliminado con exito", id));
+        log.info(String.format("Cliente con id %o eliminado con exito", id));
         return ResponseEntity.ok(cliente);
     }
 
@@ -116,7 +114,7 @@ public class ClienteControlador {
             return ResponseEntity.internalServerError().body(e);
         }                                  
 
-        logger.info(String.format("Cliente con id %o actualizado con exito", id));
+        log.info(String.format("Cliente con id %o actualizado con exito", id));
         return ResponseEntity.ok(cliente);
     }
 

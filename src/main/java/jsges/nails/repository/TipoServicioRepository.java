@@ -11,7 +11,6 @@ public interface TipoServicioRepository extends JpaRepository<TipoServicio, Inte
     @Query("select p from TipoServicio p  where p.estado=0 order by p.denominacion")
     List<TipoServicio> buscarNoEliminados();
 
-
     @Query("SELECT p FROM TipoServicio p WHERE p.estado = 0 AND  p.denominacion LIKE %:consulta% ORDER BY p.denominacion")
     List<TipoServicio> buscarNoEliminados(@Param("consulta") String consulta);
 
@@ -19,4 +18,5 @@ public interface TipoServicioRepository extends JpaRepository<TipoServicio, Inte
     List<TipoServicio> buscarExacto(@Param("consulta") String consulta);
 
     List<TipoServicio> findByDenominacionContaining(String consulta);
+    
 }

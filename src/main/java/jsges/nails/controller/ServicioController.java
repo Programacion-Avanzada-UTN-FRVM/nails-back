@@ -23,7 +23,6 @@ import jsges.nails.domain.Servicio;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.service.IItemServicioService;
 import jsges.nails.service.IServicioService;
-import jsges.nails.service.ITipoServicioService;
 import lombok.NoArgsConstructor;
 
 @RestController
@@ -32,7 +31,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ServicioController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ServicioController.class);
+    private static final Logger log = LoggerFactory.getLogger(ServicioController.class);
 
     @Autowired
     private IServicioService modelService;
@@ -82,7 +81,9 @@ public class ServicioController {
             return ResponseEntity.internalServerError().body(e);
         }
 
+        log.info(String.format("Se agrego el servicio %o", servicioGuardado.getId()));
         return ResponseEntity.ok(servicioGuardado);
     }
+    
 }
 

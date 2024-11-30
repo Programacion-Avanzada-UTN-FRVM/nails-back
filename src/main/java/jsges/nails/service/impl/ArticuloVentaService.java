@@ -64,7 +64,7 @@ public class ArticuloVentaService implements IArticuloVentaService{
 
     @Override
     public void eliminar(ArticuloVenta model) {
-        model.asEliminado();
+        model.eliminar();
         modelRepository.save(model);
     }
 

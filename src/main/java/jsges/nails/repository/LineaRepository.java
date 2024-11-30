@@ -12,7 +12,6 @@ public interface LineaRepository extends JpaRepository<Linea, Integer> {
     @Query("select p from Linea p  where p.estado=0 order by p.denominacion")
     List<Linea> buscarNoEliminados();
 
-
     @Query("SELECT p FROM Linea p WHERE p.estado = 0 AND  p.denominacion LIKE %:consulta% ORDER BY p.denominacion")
     List<Linea> buscarNoEliminados(@Param("consulta") String consulta);
 
@@ -20,4 +19,5 @@ public interface LineaRepository extends JpaRepository<Linea, Integer> {
     List<Linea> buscarExacto(@Param("consulta") String consulta);
 
     List<Linea> findByDenominacionContaining(String consulta);
+    
 }

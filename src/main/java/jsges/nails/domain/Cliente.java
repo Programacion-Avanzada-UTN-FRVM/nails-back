@@ -1,14 +1,17 @@
 package jsges.nails.domain;
 
-import jakarta.persistence.*; //esto no se debe importar asi
+import java.io.Serializable;
+import java.util.Date;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-
-import java.io.Serializable;
-import java.util.Date;
 
 @Entity
 @Data
@@ -24,7 +27,6 @@ public class Cliente implements Serializable {
         @Column(columnDefinition = "TEXT")
         String razonSocial;
 
-        //no tiene etiqueta
         int estado;
 
         @Column(columnDefinition = "TEXT")
@@ -39,10 +41,8 @@ public class Cliente implements Serializable {
         @Column(columnDefinition = "TEXT")
         String mail;
 
-        //no tiene etiqueta
         Date fechaInicio;
         
-        //no tiene etiqueta
         Date fechaNacimiento;
 
 

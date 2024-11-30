@@ -10,6 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import lombok.Getter;
+
+@Getter
 public class ServicioDTO{
 
     public Integer id;
@@ -22,7 +25,7 @@ public class ServicioDTO{
 
     }
 
-    public ServicioDTO(Servicio elemento, List<ItemServicio>list) {
+    public ServicioDTO(Servicio elemento, List<ItemServicio> list) {
 
         this.id = elemento.getId();
         this.cliente = elemento.getCliente().getId();

@@ -3,12 +3,14 @@ package jsges.nails.domain;
 import jakarta.persistence.*;
 import jsges.nails.DTO.LineaDTO;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 
 @Entity
 @Data
 @ToString
+@NoArgsConstructor
 public class Linea extends TipoObjeto {
 
     @Id
@@ -18,26 +20,17 @@ public class Linea extends TipoObjeto {
     @Column(columnDefinition = "TEXT")
     String denominacion;
 
-    //no tiene etiqueta, estado tipo int ??
     int estado;
 
     @Column(columnDefinition = "TEXT")
     String observacion;
 
-    public Linea() {
-        // Constructor por defecto necesario para JPA
-
-        //se podria usar el que te genera el @NoArgsConstructor de Loombock ?
-    }
-
     public Linea(String nombre) {
-
         this.setDenominacion(nombre);
     }
 
     public Linea(LineaDTO model) {
         this.setDenominacion(model.denominacion);
-
     }
-}
 
+}

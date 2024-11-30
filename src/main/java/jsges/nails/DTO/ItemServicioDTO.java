@@ -1,9 +1,15 @@
 package jsges.nails.DTO;
 
 import jsges.nails.domain.ItemServicio;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ItemServicioDTO {
     private Integer id ;
     private String tipoServicio ;
@@ -11,16 +17,14 @@ public class ItemServicioDTO {
     private Double precio;
     private String observaciones;
 
-    public ItemServicioDTO(ItemServicio model) {
-        this.observaciones=model.getObservacion();
-        this.precio=model.getPrecio();
-        this.tipoServicio=model.getTipoServicio().getDenominacion();
-        this.tipoServicioId=model.getTipoServicio().getId();
-        this.id=model.getId();
-
+    public ItemServicioDTO(ItemServicio itemServicio) {
+        ItemServicioDTO.builder()
+        .id(itemServicio.getId())
+        .tipoServicio(itemServicio.getTipoServicio().getDenominacion())
+        .tipoServicioId(itemServicio.getTipoServicio().getCodigo())
+        .precio(itemServicio.getPrecio())
+        .observaciones(itemServicio.getObservacion())
+        .build();
     }
 
-    public ItemServicioDTO() {
-        //usar loombok
-    }
 }

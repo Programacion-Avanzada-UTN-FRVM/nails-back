@@ -29,7 +29,8 @@ import lombok.NoArgsConstructor;
 @CrossOrigin(value="${path_cross}")
 @NoArgsConstructor
 public class TipoServicioController {
-    private static final Logger logger = LoggerFactory.getLogger(TipoServicioController.class);
+
+    private static final Logger log = LoggerFactory.getLogger(TipoServicioController.class);
    
     @Autowired
     private ITipoServicioService modelService;
@@ -44,7 +45,6 @@ public class TipoServicioController {
     public ResponseEntity<Page<TipoServicio>> getItems(@RequestParam(defaultValue = "") String consulta, @RequestParam(defaultValue = "0") int page,
                                                 @RequestParam(defaultValue = "${max_page}") int size) {
         
-
         List<TipoServicio> listado = modelService.listar(consulta);
         Page<TipoServicio> bookPage = modelService.findPaginated(PageRequest.of(page, size),listado);
 
@@ -56,9 +56,9 @@ public class TipoServicioController {
     public  ResponseEntity<TipoServicio>  agregar(@RequestBody TipoServicioDTO model){
         TipoServicio nuevoModelo = modelService.newModel(model);
 
+        log.info(String.format("Se agrego el Tipo de Servicio con id %o", nuevoModelo.getId()));
         return ResponseEntity.ok(nuevoModelo);
     }
-
 
     @PutMapping("/tipoServicioEliminar/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Integer id){
@@ -73,6 +73,7 @@ public class TipoServicioController {
             return ResponseEntity.internalServerError().body(e);
         }
 
+        log.info(String.format("Se elimino el Tipo de Servicio con id %d", model.getId()));
         return ResponseEntity.ok(model);
     }
 
@@ -105,6 +106,7 @@ public class TipoServicioController {
             return ResponseEntity.internalServerError().body(e);
         }
                                                   
+        log.info(String.format("Se actualizo el Tipo de Servicio con id %d", model.getId()));
         return ResponseEntity.ok(modelRecibido);
     }
 

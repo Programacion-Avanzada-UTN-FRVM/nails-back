@@ -1,10 +1,17 @@
 package jsges.nails.domain;
 
-import jakarta.persistence.*;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Objects;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.SequenceGenerator;
+import lombok.Data;
 
 @Entity
 @Data
@@ -16,28 +23,18 @@ public class TipoObjeto implements Serializable {
         @SequenceGenerator(name = "tipo_objeto_id_seq", sequenceName = "tipo_objeto_id_seq", allocationSize = 1)
         private Integer id;
 
-        //no tiene etiqueta
         private int codigo;
 
         @Column(columnDefinition = "TEXT")
         private String denominacion;
 
-        //no tiene etiqueta
         private int estado;
 
         @Column(columnDefinition = "TEXT")
         private String detalle;
 
-
-        //nombre del metodo !?
-        public void asEliminado() {
+        public void eliminar() {
             this.setEstado(1);
-        }
-
-        @Override
-        public int hashCode() { //esto esta mal
-            int hash = 7;
-            return hash;
         }
 
         @Override
@@ -54,4 +51,5 @@ public class TipoObjeto implements Serializable {
             final TipoObjeto other = (TipoObjeto) obj;
             return Objects.equals(this.id, other.id);
         }
+        
 }

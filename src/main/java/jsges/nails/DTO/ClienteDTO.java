@@ -1,9 +1,12 @@
 package jsges.nails.DTO;
+import java.util.Date;
+
 import jsges.nails.domain.Cliente;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
 @Data
+@NoArgsConstructor
 public class ClienteDTO {
 
     private Integer id;
@@ -23,7 +26,4 @@ public class ClienteDTO {
 
     }
 
-    public ClienteDTO( ) {
-        // usar lombok
-    }
 }

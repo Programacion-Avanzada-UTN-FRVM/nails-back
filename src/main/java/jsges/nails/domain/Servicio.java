@@ -24,15 +24,15 @@ public class Servicio {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Integer id;
 
-        //no tiene etiqueta, tipo int ??
         private int estado;
 
         @ManyToOne(cascade = CascadeType.ALL)
         private Cliente cliente;
 
-        //ninguno de estos 3 tiene etiqueta
         private Timestamp fechaRegistro;
+        
         private Timestamp fechaRealizacion;
+        
         private double total;
 
 }

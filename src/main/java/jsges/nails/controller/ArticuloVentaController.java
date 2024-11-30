@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ArticuloVentaController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ArticuloVentaController.class);
+    private static final Logger log = LoggerFactory.getLogger(ArticuloVentaController.class);
 
     @Autowired
     private IArticuloVentaService modelService;
@@ -63,10 +63,9 @@ public class ArticuloVentaController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e);
         }
-        logger.info("Articulo guardado con exito");
+        log.info("Articulo guardado con exito");
         return ResponseEntity.ok(result);
     }
-
 
     @DeleteMapping("/articuloEliminar/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Integer id) {
@@ -81,7 +80,7 @@ public class ArticuloVentaController {
             return ResponseEntity.internalServerError().body(e);
         }
 
-        logger.info(String.format("Articulo con id %o eliminado con exito", id));
+        log.info(String.format("Articulo con id %o eliminado con exito", id));
         return ResponseEntity.ok(model);
     }
 
@@ -115,7 +114,7 @@ public class ArticuloVentaController {
             return ResponseEntity.internalServerError().body(e);
         }                          
 
-        logger.info(String.format("Articulo con id %o actualizado con exito", id));
+        log.info(String.format("Articulo con id %o actualizado con exito", id));
         return ResponseEntity.ok(model);
     }
 

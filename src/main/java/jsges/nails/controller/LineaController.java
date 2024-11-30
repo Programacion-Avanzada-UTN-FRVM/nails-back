@@ -21,24 +21,23 @@ import jsges.nails.DTO.LineaDTO;
 import jsges.nails.domain.Linea;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.service.ILineaService;
+import lombok.NoArgsConstructor;
 
 @RestController
 @RequestMapping(value="${path_mapping}")
 @CrossOrigin(value="${path_cross}")
+@NoArgsConstructor
 public class LineaController {
-    private static final Logger logger = LoggerFactory.getLogger(LineaController.class);
+   
+    private static final Logger log = LoggerFactory.getLogger(LineaController.class);
+   
     @Autowired
     private ILineaService modelService;
-
-    public LineaController() {
-        // constructor vacio ? usar @Builder
-    }
 
     @GetMapping({"/lineas"})
     public ResponseEntity<List<LineaDTO>> getAll() {
         return ResponseEntity.ok(modelService.listar());
     }
-
 
     @GetMapping({"/lineasPageQuery"})
     public ResponseEntity<Page<LineaDTO>> getItems(@RequestParam(defaultValue = "") String consulta, @RequestParam(defaultValue = "0") int page,
@@ -51,7 +50,7 @@ public class LineaController {
     }
 
     @PostMapping("/linea")
-    public  ResponseEntity<?> agregar(@RequestBody LineaDTO model){
+    public  ResponseEntity<?> agregar(@RequestBody LineaDTO model) {
         
         Linea result;
         
@@ -61,12 +60,12 @@ public class LineaController {
             return ResponseEntity.internalServerError().body(e);
         }
 
-        logger.info("Linea guardada con exito");
+        log.info("Linea guardada con exito");
         return ResponseEntity.ok(result);
     }
 
     @PutMapping("/lineaEliminar/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Integer id){
+    public ResponseEntity<?> eliminar(@PathVariable Integer id) {
        
         Linea model;
 
@@ -79,12 +78,12 @@ public class LineaController {
             return ResponseEntity.internalServerError().body(e);
         }
 
-        logger.info(String.format("Articulo con id %o eliminado con exito", id));
+        log.info(String.format("Articulo con id %o eliminado con exito", id));
         return ResponseEntity.ok(model);
     }
 
     @GetMapping("/linea/{id}")
-    public ResponseEntity<?> getPorId(@PathVariable Integer id){
+    public ResponseEntity<?> getPorId(@PathVariable Integer id) {
         Linea linea;
             
         try {
@@ -99,8 +98,7 @@ public class LineaController {
     }
 
     @PutMapping("/linea/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable Integer id,
-                                            @RequestBody LineaDTO modelRecibido){
+    public ResponseEntity<?> actualizar(@PathVariable Integer id, @RequestBody LineaDTO modelRecibido) {
         Linea model;   
                                                      
         try {
@@ -112,7 +110,7 @@ public class LineaController {
             return ResponseEntity.internalServerError().body(e);
         }                          
 
-        logger.info(String.format("Linea con id %o actualizado con exito", id));
+        log.info(String.format("Linea con id %o actualizado con exito", id));
         return ResponseEntity.ok(model);
     }
 

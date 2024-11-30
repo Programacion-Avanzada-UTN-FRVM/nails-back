@@ -2,7 +2,7 @@ package jsges.nails.DTO;
 
 import jsges.nails.domain.Linea;
 
-public class LineaDTO extends TipoObjetoDTO { //hace falta este dto ?
+public class LineaDTO extends TipoObjetoDTO {
 
     public LineaDTO() {
        super(); 

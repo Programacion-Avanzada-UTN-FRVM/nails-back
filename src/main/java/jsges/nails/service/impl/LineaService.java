@@ -61,7 +61,7 @@ public class LineaService implements ILineaService {
 
     @Override
     public void eliminar(Linea model) {
-        model.asEliminado();
+        model.eliminar();
         modelRepository.save(model);
     }
 

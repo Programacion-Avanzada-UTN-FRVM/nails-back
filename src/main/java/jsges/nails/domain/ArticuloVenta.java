@@ -1,6 +1,12 @@
 package jsges.nails.domain;
 
-import jakarta.persistence.*; //no se debe importar 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +28,6 @@ public class ArticuloVenta {
         @Column(columnDefinition = "TEXT")
         String denominacion;
 
-        //no tiene etiqueta, estado tipo int ?
         int estado;
 
         @Column(columnDefinition = "TEXT")
@@ -31,11 +36,7 @@ public class ArticuloVenta {
         @ManyToOne(cascade = CascadeType.ALL)
         private Linea linea;
 
-
-        //nombre del metodo !?
-        // ya usa el @Data
-        public void asEliminado() {
+        public void eliminar() {
                this.setEstado(1);
         }
 }
-
