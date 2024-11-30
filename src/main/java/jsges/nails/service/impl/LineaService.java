@@ -1,8 +1,6 @@
 package jsges.nails.service.impl;
 
-import jsges.nails.DTO.ArticuloVentaDTO;
 import jsges.nails.DTO.LineaDTO;
-import jsges.nails.domain.ArticuloVenta;
 import jsges.nails.domain.Linea;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.repository.LineaRepository;
@@ -15,8 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

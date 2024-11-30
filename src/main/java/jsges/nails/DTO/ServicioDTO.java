@@ -10,9 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class ServicioDTO{
 
     public Integer id;

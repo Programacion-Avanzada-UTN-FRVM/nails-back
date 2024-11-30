@@ -10,12 +10,10 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Entity
 @Data
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -38,5 +36,9 @@ public class ArticuloVenta {
 
         public void eliminar() {
                this.setEstado(1);
+        }
+
+        public boolean isEliminado() {
+                return this.estado == 1;
         }
 }

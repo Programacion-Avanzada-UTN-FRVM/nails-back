@@ -3,11 +3,13 @@ package jsges.nails.DTO;
 import jsges.nails.domain.ArticuloVenta;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Data
 public class ArticuloVentaDTO extends TipoObjetoDTO {
 
     public Integer id;
