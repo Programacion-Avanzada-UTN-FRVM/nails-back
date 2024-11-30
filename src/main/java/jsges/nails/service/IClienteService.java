@@ -1,14 +1,15 @@
-package jsges.nails.service.organizacion;
-
-import jsges.nails.DTO.Organizacion.ClienteDTO;
-import jsges.nails.domain.organizacion.Cliente;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+package jsges.nails.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import jsges.nails.DTO.ClienteDTO;
+import jsges.nails.domain.Cliente;
+
 public interface IClienteService {
-    public List<Cliente> listar();
+    public List<ClienteDTO> listar();
 
     public Cliente buscarPorId(Integer id);
 
@@ -21,4 +22,6 @@ public interface IClienteService {
     public Page<Cliente> getClientes(Pageable pageable);
 
     public Page<ClienteDTO> findPaginated(Pageable pageable, List<ClienteDTO> clientes);
+
+    public Cliente update(ClienteDTO modelRecibido, Cliente model);
 }

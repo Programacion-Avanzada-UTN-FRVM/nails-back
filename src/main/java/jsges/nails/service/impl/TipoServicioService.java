@@ -1,7 +1,13 @@
-package jsges.nails.service.servicios;
-import jsges.nails.DTO.servicios.TipoServicioDTO;
-import jsges.nails.domain.servicios.TipoServicio;
-import jsges.nails.repository.servicios.TipoServicioRepository;
+package jsges.nails.service.impl;
+
+import jsges.nails.DTO.ArticuloVentaDTO;
+import jsges.nails.DTO.TipoServicioDTO;
+import jsges.nails.domain.ArticuloVenta;
+import jsges.nails.domain.TipoServicio;
+import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
+import jsges.nails.repository.TipoServicioRepository;
+import jsges.nails.service.ITipoServicioService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -28,10 +36,14 @@ public class TipoServicioService implements ITipoServicioService {
 
     @Override
     public TipoServicio buscarPorId(Integer id) {
-        return modelRepository.findById(id).orElse(null);
+        TipoServicio tipoServicio = modelRepository.findById(id).orElse(null);
+
+        if (tipoServicio == null) {
+            throw new RecursoNoEncontradoExcepcion("No se encontraron resultados");
+        }
+
+        return tipoServicio;
     }
-
-
 
     @Override
     public TipoServicio guardar(TipoServicio model) {
@@ -46,10 +58,9 @@ public class TipoServicioService implements ITipoServicioService {
         return guardar(model);
     }
 
-
     @Override
     public void eliminar(TipoServicio model) {
-
+        model.setEstado(1);
         modelRepository.save(model);
     }
 
@@ -64,10 +75,24 @@ public class TipoServicioService implements ITipoServicioService {
         return  modelRepository.findAll(pageable);
     }
 
+    @Override
     public List<TipoServicio> buscar(String consulta) {
-        return modelRepository.buscarExacto(consulta);
+        List<TipoServicio> list =  modelRepository.buscarExacto(consulta);
+
+        if (!list.isEmpty()){
+            throw new RecursoNoEncontradoExcepcion("No se encontraron resultados");
+        }
+
+        return list;
     }
 
+    @Override
+    public TipoServicioDTO update(TipoServicioDTO modelRecibido, TipoServicio model){
+        model.setDenominacion(modelRecibido.denominacion);
+        guardar(model);
+
+        return modelRecibido;
+    }
 
     @Override
     public Page<TipoServicio> findPaginated(Pageable pageable, List<TipoServicio>lineas) {

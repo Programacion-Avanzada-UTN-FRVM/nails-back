@@ -1,7 +1,6 @@
-package jsges.nails.service.servicios;
+package jsges.nails.service;
 
-import jsges.nails.domain.servicios.ItemServicio;
-import jsges.nails.domain.servicios.Servicio;
+import jsges.nails.domain.ItemServicio;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

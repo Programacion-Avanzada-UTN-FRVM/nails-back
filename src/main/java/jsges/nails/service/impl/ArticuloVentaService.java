@@ -1,8 +1,12 @@
-package jsges.nails.service.articulos;
+package jsges.nails.service.impl;
 
-import jsges.nails.DTO.articulos.ArticuloVentaDTO;
-import jsges.nails.domain.articulos.ArticuloVenta;
-import jsges.nails.repository.articulos.ArticuloVentaRepository;
+import jsges.nails.DTO.ArticuloVentaDTO;
+import jsges.nails.domain.ArticuloVenta;
+import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
+import jsges.nails.repository.ArticuloVentaRepository;
+import jsges.nails.service.IArticuloVentaService;
+import jsges.nails.service.ILineaService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,41 +15,64 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
 public class ArticuloVentaService implements IArticuloVentaService{
     @Autowired
     private ArticuloVentaRepository modelRepository;
+
+    @Autowired
+    private ILineaService lineaService;
+
     private static final Logger logger = LoggerFactory.getLogger(ArticuloVentaService.class);
 
 
     @Override
-    public List<ArticuloVenta> listar() {
-        return modelRepository.buscarNoEliminados();
+    public List<ArticuloVentaDTO> listar() {
+        List<ArticuloVenta> list = modelRepository.buscarNoEliminados();
+
+        return convertListOfArticulesToDTO(list);
     }
 
     @Override
     public ArticuloVenta buscarPorId(Integer id) {
-        return modelRepository.findById(id).orElse(null);
-    }
+        ArticuloVenta articuloVenta = modelRepository.findById(id).orElse(null);
+
+        if(articuloVenta == null) {
+            throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
+        }
+
+        return articuloVenta;
+    } 
 
     @Override
-    public ArticuloVenta guardar(ArticuloVenta model) {
-        return modelRepository.save(model);
+    public ArticuloVenta guardar(ArticuloVentaDTO model) {
+        Integer idLinea = model.linea;
+
+        ArticuloVenta newModel =  new ArticuloVenta();
+        newModel.setDenominacion(model.denominacion);
+        newModel.setLinea(lineaService.buscarPorId(idLinea));
+
+        return modelRepository.save(newModel);
     }
 
     @Override
     public void eliminar(ArticuloVenta model) {
+        model.asEliminado();
         modelRepository.save(model);
     }
 
     @Override
-    public List<ArticuloVenta> listar(String consulta) {
-        //logger.info("service " +consulta);
-        return modelRepository.buscarNoEliminados(consulta);
+    public List<ArticuloVentaDTO> listar(String consulta) {
+        List<ArticuloVenta> list = modelRepository.buscarNoEliminados(consulta);
+
+        return convertListOfArticulesToDTO(list);
     }
 
     @Override
@@ -54,16 +81,16 @@ public class ArticuloVentaService implements IArticuloVentaService{
     }
 
     @Override
-    public Page<ArticuloVentaDTO> findPaginated(Pageable pageable, List<ArticuloVentaDTO> listado) {
+    public Page<ArticuloVentaDTO> findPaginated(Pageable pageable, List<ArticuloVentaDTO> list) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
-        List<ArticuloVentaDTO> list;
-        if (listado.size() < startItem) {
-            list = Collections.emptyList();
+        List<ArticuloVentaDTO> listado;
+        if (list.size() < startItem) {
+            listado = Collections.emptyList();
         } else {
-            int toIndex = Math.min(startItem + pageSize, listado.size());
-            list = listado.subList(startItem, toIndex);
+            int toIndex = Math.min(startItem + pageSize, list.size());
+            listado = list.subList(startItem, toIndex);
         }
 
         Page<ArticuloVentaDTO> bookPage
@@ -71,7 +98,25 @@ public class ArticuloVentaService implements IArticuloVentaService{
 
         return bookPage;
     }
+    
+    @Override
+    public ArticuloVentaDTO update(ArticuloVentaDTO modelRecibido, ArticuloVenta model) {
+        model.setDenominacion(modelRecibido.denominacion);
+        model.setLinea(lineaService.buscarPorId(modelRecibido.linea));
 
+        return new ArticuloVentaDTO(model);
+    }
 
+    private List<ArticuloVentaDTO> convertListOfArticulesToDTO(List<ArticuloVenta> list) {
+        List<ArticuloVentaDTO> result = new ArrayList<>();
+        
+        list.forEach((model) -> {
+            result.add(new ArticuloVentaDTO(model));
+        });
+
+        return result;
+    }
+
+    
 
 }

@@ -1,4 +1,4 @@
-package jsges.nails.domain.servicios;
+package jsges.nails.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,20 +16,24 @@ public class ItemServicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    // no tiene etiqueta
     int estado;
 
     @Column(columnDefinition = "TEXT")
     String observacion;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL) //no deberia existir esta relacion, el servicio deberia tener el tipo
     private TipoServicio tipoServicio;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private Servicio servicio;
 
+    //no tiene etiqueta
     private Double precio;
 
+    // nombre del metodo !?
+    // ya usa el @Data
     public void asEliminado() {
         this.setEstado(1);
     }
@@ -47,10 +51,12 @@ public class ItemServicio {
         return Objects.hash(id, estado, observacion, tipoServicio, servicio);
     }
 
+    //constructor deberia ir mas arriba, esta redundante porque ya usa el @AllArgsConstructor
     public ItemServicio() {
 
     }
 
+    //idem arriba
     public ItemServicio(Servicio servicio ,TipoServicio tipo, Double precio,String observacion) {
         this.servicio = servicio;
         this.tipoServicio = tipo;

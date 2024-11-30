@@ -1,8 +1,12 @@
-package jsges.nails.service.organizacion;
+package jsges.nails.service.impl;
 
-import jsges.nails.DTO.Organizacion.ClienteDTO;
-import jsges.nails.domain.organizacion.Cliente;
-import jsges.nails.repository.organizacion.ClienteRepository;
+import jsges.nails.DTO.ArticuloVentaDTO;
+import jsges.nails.DTO.ClienteDTO;
+import jsges.nails.domain.ArticuloVenta;
+import jsges.nails.domain.Cliente;
+import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
+import jsges.nails.repository.ClienteRepository;
+import jsges.nails.service.IClienteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,22 +16,33 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Service
 public class ClienteService implements IClienteService {
+   
     @Autowired
     private ClienteRepository clienteRepository;
+   
     private static final Logger logger = LoggerFactory.getLogger(ClienteService.class);
+   
     @Override
-    public List<Cliente> listar() {
-        return clienteRepository.buscarNoEliminados();
+    public List<ClienteDTO> listar() {
+        List<Cliente> list = clienteRepository.buscarNoEliminados();
+        
+        return convertListOfClienteToDTO(list);
     }
 
     @Override
     public Cliente buscarPorId(Integer id) {
         Cliente model = clienteRepository.findById(id).orElse(null);
+
+        if (model == null) {
+            throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
+        }
+
         return model;
     }
 
@@ -38,7 +53,8 @@ public class ClienteService implements IClienteService {
 
     @Override
     public void eliminar(Cliente cliente) {
-          clienteRepository.save(cliente);
+        cliente.setEstado(1);  
+        clienteRepository.save(cliente);
     }
 
     @Override
@@ -66,6 +82,29 @@ public class ClienteService implements IClienteService {
                 = new PageImpl<ClienteDTO>(list, PageRequest.of(currentPage, pageSize), clientes.size());
 
         return bookPage;
+    }
+
+    @Override
+    public Cliente update(ClienteDTO modelRecibido, Cliente model) {
+        model.setCelular(modelRecibido.getCelular());
+        model.setContacto(modelRecibido.getContacto());
+        model.setRazonSocial(modelRecibido.getRazonSocial());
+        model.setLetra(modelRecibido.getLetra());
+        model.setMail(modelRecibido.getMail());
+        model.setFechaInicio(modelRecibido.getFechaInicio());
+        model.setFechaNacimiento(modelRecibido.getFechaNacimiento());
+
+        return model;
+    }
+    
+    private List<ClienteDTO> convertListOfClienteToDTO(List<Cliente> list) {
+        List<ClienteDTO> result = new ArrayList<>();
+        
+        list.forEach((model) -> {
+            result.add(new ClienteDTO(model));
+        });
+
+        return result;
     }
 
 

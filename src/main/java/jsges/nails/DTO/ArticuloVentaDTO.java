@@ -1,7 +1,6 @@
-package jsges.nails.DTO.articulos;
+package jsges.nails.DTO;
 
-import jsges.nails.DTO.TipoObjetoDTO;
-import jsges.nails.domain.articulos.ArticuloVenta;
+import jsges.nails.domain.ArticuloVenta;
 
 public class ArticuloVentaDTO extends TipoObjetoDTO {
 
@@ -9,13 +8,13 @@ public class ArticuloVentaDTO extends TipoObjetoDTO {
     public String denominacion;
     public Integer linea;
 
-    public ArticuloVentaDTO( ArticuloVenta model) {
+    public ArticuloVentaDTO(ArticuloVenta model) { //usar loombok
         this.id = model.getId();
         this.denominacion=model.getDenominacion();
         this.linea=model.getLinea().getId();
     }
 
-    public ArticuloVentaDTO( ) {
+    public ArticuloVentaDTO( ) { //usar lombok
 
     }
 }

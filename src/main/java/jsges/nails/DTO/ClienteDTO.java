@@ -1,5 +1,5 @@
-package jsges.nails.DTO.Organizacion;
-import jsges.nails.domain.organizacion.Cliente;
+package jsges.nails.DTO;
+import jsges.nails.domain.Cliente;
 import lombok.Data;
 
 import java.util.Date;
@@ -24,6 +24,6 @@ public class ClienteDTO {
     }
 
     public ClienteDTO( ) {
-
+        // usar lombok
     }
 }

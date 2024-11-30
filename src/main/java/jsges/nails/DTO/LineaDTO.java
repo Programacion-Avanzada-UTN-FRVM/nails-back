@@ -1,12 +1,11 @@
-package jsges.nails.DTO.articulos;
+package jsges.nails.DTO;
 
-import jsges.nails.DTO.TipoObjetoDTO;
-import jsges.nails.domain.articulos.Linea;
+import jsges.nails.domain.Linea;
 
-public class LineaDTO extends TipoObjetoDTO {
+public class LineaDTO extends TipoObjetoDTO { //hace falta este dto ?
 
     public LineaDTO() {
-       super();
+       super(); 
     }
 
     public LineaDTO(Linea linea) {

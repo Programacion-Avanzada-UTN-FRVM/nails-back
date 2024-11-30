@@ -1,6 +1,6 @@
-package jsges.nails.DTO.servicios;
+package jsges.nails.DTO;
 
-import jsges.nails.domain.servicios.ItemServicio;
+import jsges.nails.domain.ItemServicio;
 import lombok.Data;
 
 @Data
@@ -21,6 +21,6 @@ public class ItemServicioDTO {
     }
 
     public ItemServicioDTO() {
-
+        //usar loombok
     }
 }

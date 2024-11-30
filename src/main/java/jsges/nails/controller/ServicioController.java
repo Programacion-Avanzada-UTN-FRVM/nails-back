@@ -1,120 +1,88 @@
-package jsges.nails.controller.services;
-import jsges.nails.DTO.articulos.ArticuloVentaDTO;
-import jsges.nails.DTO.servicios.ItemServicioDTO;
-import jsges.nails.DTO.servicios.ServicioDTO;
-import jsges.nails.domain.articulos.ArticuloVenta;
-import jsges.nails.domain.servicios.ItemServicio;
-import jsges.nails.domain.servicios.Servicio;
-import jsges.nails.domain.servicios.TipoServicio;
-import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
-import jsges.nails.service.organizacion.IClienteService;
-import jsges.nails.service.servicios.IItemServicioService;
-import jsges.nails.service.servicios.IServicioService;
-import jsges.nails.service.servicios.ITipoServicioService;
+package jsges.nails.controller;
+
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+import jsges.nails.DTO.ServicioDTO;
+import jsges.nails.domain.ItemServicio;
+import jsges.nails.domain.Servicio;
+import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
+import jsges.nails.service.IItemServicioService;
+import jsges.nails.service.IServicioService;
+import jsges.nails.service.ITipoServicioService;
+import lombok.NoArgsConstructor;
 
 @RestController
 @RequestMapping(value="${path_mapping}")
 @CrossOrigin(value="${path_cross}")
+@NoArgsConstructor
 public class ServicioController {
+
     private static final Logger logger = LoggerFactory.getLogger(ServicioController.class);
+
     @Autowired
     private IServicioService modelService;
-    @Autowired
-    private IClienteService clienteService;
-
-    @Autowired
-    private ITipoServicioService tipoServicioService;
-
+    
     @Autowired
     private IItemServicioService itemServicioService;
 
-    public ServicioController() { //cambiar por @NoArgsBuilder
-
-    } 
 
     @GetMapping({"/servicios"})
-    public List<ServicioDTO> getAll() {
-        // llevarselo a un servicio
-        List<Servicio> servicios = this.modelService.listar();
-        List<ServicioDTO> lista =new ArrayList<>();
-        for (Servicio elemento : servicios) {
-            System.out.println("1"); // Debug: Verificar el contenido // sacar esto
-            List<ItemServicio> items = itemServicioService.listar();
-            System.out.println("3"); // Debug: Verificar el contenido //sacar esto
-            ServicioDTO ser  = new ServicioDTO(elemento,items);
-            lista.add(ser);
-        }
-        return lista;
+    public ResponseEntity<List<ServicioDTO>> getAll() {
+
+        return ResponseEntity.ok(modelService.listar());
     }
+    
     @GetMapping("/servicio/{id}")
-    public ResponseEntity<ServicioDTO> getPorId(@PathVariable Integer id){
-        logger.info("entra  en buscar servicio"  ); // sacar esto
-        // mover a un servicio
-        Servicio model = modelService.buscarPorId(id);
-        if(model == null)
-            throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
+    public ResponseEntity<?> getPorId(@PathVariable Integer id) {
+        Servicio model;
+        List<ItemServicio>listItems;
+        try {
+            model = modelService.buscarPorId(id);
+            listItems = itemServicioService.buscarPorServicio(model.getId());
+        } catch (RecursoNoEncontradoExcepcion e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e);
+        }
 
-        List<ItemServicio>listItems = itemServicioService.buscarPorServicio(model.getId());
-        ServicioDTO modelDTO  = new ServicioDTO(model,listItems);
-        logger.info(modelDTO.toString());
-        // />
-
-        return ResponseEntity.ok(modelDTO);
+        return ResponseEntity.ok(new ServicioDTO(model, listItems));
     }
 
     @GetMapping({"/serviciosPageQuery"})
     public ResponseEntity<Page<ServicioDTO>> getItems(@RequestParam(defaultValue = "") String consulta, @RequestParam(defaultValue = "0") int page,
                                                            @RequestParam(defaultValue = "${max_page}") int size) {
         
-        // mover a un servicio
-        List<Servicio> listado = modelService.listar(consulta);
-        List<ServicioDTO> listadoDTO    =  new ArrayList<>();
-        listado.forEach((model) -> {
-            listadoDTO.add(new ServicioDTO(model));
-        });
-        Page<ServicioDTO> bookPage = modelService.findPaginated(PageRequest.of(page, size),listadoDTO);
+        Page<ServicioDTO> bookPage = modelService.findPaginated(PageRequest.of(page, size),modelService.listar(consulta));
 
-        // />
         return ResponseEntity.ok().body(bookPage);
     }
 
     @PostMapping("/servicios")
-    public Servicio agregar(@RequestBody ServicioDTO model){
+    public ResponseEntity<?> agregar(@RequestBody ServicioDTO model){
+        ServicioDTO servicioGuardado;
 
-        // mover a un servicio
-        Integer idCliente = model.cliente;
-
-        Servicio newModel =  new Servicio();
-        newModel.setCliente(clienteService.buscarPorId(idCliente));
-        newModel.setFechaRegistro(model.fechaDocumento);
-        newModel.setFechaRealizacion(model.fechaDocumento);
-        newModel.setEstado(0);
-
-        Servicio servicioGuardado= modelService.guardar(newModel);
-        for (ItemServicioDTO elemento : model.listaItems) {
-            double precio = elemento.getPrecio();
-            logger.info("entra for");
-
-            TipoServicio tipoServicio = tipoServicioService.buscarPorId(elemento.getTipoServicioId());
-            String observacion = elemento.getObservaciones();
-            ItemServicio item = new ItemServicio(newModel, tipoServicio, precio,observacion);
-
-            itemServicioService.guardar(item);
-
+        try {
+            servicioGuardado = modelService.guardar(model);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e);
         }
-        // />
-        return servicioGuardado;
+
+        return ResponseEntity.ok(servicioGuardado);
     }
 }
 

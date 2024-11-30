@@ -1,15 +1,22 @@
-package jsges.nails.domain.servicios;
+package jsges.nails.domain;
 
-import jakarta.persistence.*;
-import jsges.nails.domain.organizacion.Cliente;
+import java.sql.Timestamp;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
-import java.sql.Timestamp;
 
 @Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class Servicio {
 
@@ -17,20 +24,15 @@ public class Servicio {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Integer id;
 
+        //no tiene etiqueta, tipo int ??
         private int estado;
 
         @ManyToOne(cascade = CascadeType.ALL)
         private Cliente cliente;
 
+        //ninguno de estos 3 tiene etiqueta
         private Timestamp fechaRegistro;
         private Timestamp fechaRealizacion;
         private double total;
-
-
-    public Servicio() {
-
-    }
-
-
 
 }

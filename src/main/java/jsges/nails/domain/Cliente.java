@@ -1,6 +1,6 @@
-package jsges.nails.domain.organizacion;
+package jsges.nails.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.*; //esto no se debe importar asi
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,13 +16,15 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 public class Cliente implements Serializable {
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Integer id;
 
         @Column(columnDefinition = "TEXT")
-
         String razonSocial;
+
+        //no tiene etiqueta
         int estado;
 
         @Column(columnDefinition = "TEXT")
@@ -33,10 +35,14 @@ public class Cliente implements Serializable {
 
         @Column(columnDefinition = "TEXT")
         String celular;
+
         @Column(columnDefinition = "TEXT")
         String mail;
 
+        //no tiene etiqueta
         Date fechaInicio;
+        
+        //no tiene etiqueta
         Date fechaNacimiento;
 
 

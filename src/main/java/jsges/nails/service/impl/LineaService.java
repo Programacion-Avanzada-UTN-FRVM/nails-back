@@ -1,8 +1,13 @@
-package jsges.nails.service.articulos;
+package jsges.nails.service.impl;
 
-import jsges.nails.DTO.articulos.LineaDTO;
-import jsges.nails.domain.articulos.Linea;
-import jsges.nails.repository.articulos.LineaRepository;
+import jsges.nails.DTO.ArticuloVentaDTO;
+import jsges.nails.DTO.LineaDTO;
+import jsges.nails.domain.ArticuloVenta;
+import jsges.nails.domain.Linea;
+import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
+import jsges.nails.repository.LineaRepository;
+import jsges.nails.service.ILineaService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,22 +31,27 @@ public class LineaService implements ILineaService {
     private static final Logger logger = LoggerFactory.getLogger(LineaService.class);
 
     @Override
-    public List<Linea> listar() {
-        return modelRepository.buscarNoEliminados();
+    public List<LineaDTO> listar() {
+        List<Linea> list = modelRepository.buscarNoEliminados();
+
+        return convertListOfLineaToDTO(list);
     }
 
     @Override
     public Linea buscarPorId(Integer id) {
-        return modelRepository.findById(id).orElse(null);
+        Linea linea = modelRepository.findById(id).orElse(null);
+
+        if(linea == null) {
+            throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
+        }
+        
+        return linea;
     }
-
-
 
     @Override
     public Linea guardar(Linea model) {
         return modelRepository.save(model);
     }
-
 
     @Override
     public Linea newModel(LineaDTO modelDTO) {
@@ -46,17 +59,17 @@ public class LineaService implements ILineaService {
         return guardar(model);
     }
 
-
     @Override
     public void eliminar(Linea model) {
-
+        model.asEliminado();
         modelRepository.save(model);
     }
 
     @Override
-    public List<Linea> listar(String consulta) {
-        //logger.info("service " +consulta);
-        return modelRepository.buscarNoEliminados(consulta);
+    public List<LineaDTO> listar(String consulta) {
+        List<Linea> list = modelRepository.buscarNoEliminados(consulta);
+
+        return convertListOfLineaToDTO(list);
     }
 
     @Override
@@ -65,9 +78,14 @@ public class LineaService implements ILineaService {
     }
 
     public List<Linea> buscar(String consulta) {
-        return modelRepository.buscarExacto(consulta);
-    }
+        List<Linea> list = modelRepository.buscarExacto(consulta);
 
+         if (!list.isEmpty()){
+            throw new RecursoNoEncontradoExcepcion("Error con la consulta");
+        }
+        
+        return list;
+    }
 
     @Override
     public Page<LineaDTO> findPaginated(Pageable pageable, List<LineaDTO>lineas) {
@@ -86,6 +104,23 @@ public class LineaService implements ILineaService {
                 = new PageImpl<LineaDTO>(list, PageRequest.of(currentPage, pageSize), lineas.size());
 
         return bookPage;
+    }
+
+    @Override
+    public Linea update(LineaDTO modelRecibido, Linea model) {
+        model.setDenominacion(modelRecibido.denominacion);
+
+        return model;
+    }
+
+    private List<LineaDTO> convertListOfLineaToDTO(List<Linea> list) {
+        List<LineaDTO> result = new ArrayList<>();
+        
+        list.forEach((model) -> {
+            result.add(new LineaDTO(model));
+        });
+
+        return result;
     }
 
 }

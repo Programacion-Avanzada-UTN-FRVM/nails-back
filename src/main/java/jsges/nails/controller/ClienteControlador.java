@@ -1,114 +1,123 @@
-package jsges.nails.controller.organizacion;
+package jsges.nails.controller;
 
-import jsges.nails.DTO.Organizacion.ClienteDTO;
-import jsges.nails.DTO.articulos.LineaDTO;
-import jsges.nails.domain.articulos.Linea;
-import jsges.nails.domain.organizacion.Cliente;
-import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
-import jsges.nails.service.organizacion.IClienteService;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+import jsges.nails.DTO.ClienteDTO;
+import jsges.nails.domain.Cliente;
+import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
+import jsges.nails.service.IClienteService;
+import lombok.NoArgsConstructor;
+
 
 
 @RestController
 @RequestMapping(value="${path_mapping}")
 @CrossOrigin(value="${path_cross}")
-
+@NoArgsConstructor
 public class ClienteControlador {
+
     private static final Logger logger = LoggerFactory.getLogger(ClienteControlador.class);
+    
     @Autowired
     private IClienteService clienteServicio;
 
-
-    public ClienteControlador() {
-    }
-
     @GetMapping({"/clientes"})
-    public List<ClienteDTO> getAll() {
-        // < mover a un servicio
-        List<ClienteDTO> listadoDTO    =  new ArrayList<>();
-        List<Cliente> list = this.clienteServicio.listar();
+    public ResponseEntity<List<ClienteDTO>> getAll() {
 
-        list.forEach((model) -> {
-            listadoDTO.add(new ClienteDTO(model));
-        });
-
-        // />
-
-        return listadoDTO; //cambiar respuesta
+        return ResponseEntity.ok(clienteServicio.listar()); 
     }
 
     @GetMapping({"/clientesPageQuery"})
     public ResponseEntity<Page<ClienteDTO>> getItems(@RequestParam(defaultValue = "") String consulta,@RequestParam(defaultValue = "0") int page,
                                                   @RequestParam(defaultValue = "${max_page}") int size) {
-        // < mover a un servicio
-        List<Cliente> listado = clienteServicio.listar(consulta);
-        List<ClienteDTO> listadoDTO    =  new ArrayList<>();
-        listado.forEach((model) -> {
-            listadoDTO.add(new ClienteDTO(model));
-        });
-        Page<ClienteDTO> bookPage = clienteServicio.findPaginated(PageRequest.of(page, size),listadoDTO);
 
-        // />
+        Page<ClienteDTO> bookPage = clienteServicio
+        .findPaginated(PageRequest.of(page, size), clienteServicio.listar());
 
-        return ResponseEntity.ok().body(bookPage); // respuesta ok
+        return ResponseEntity.ok().body(bookPage);
     }
 
 
     @PostMapping("/clientes")
-    public Cliente agregar(@RequestBody Cliente cliente){
-       // logger.info("Cliente a agregar: " + cliente);
-        return clienteServicio.guardar(cliente);
+    public ResponseEntity<?> agregar(@RequestBody Cliente cliente) {
+        Cliente result;
+        
+        try {
+            result = clienteServicio.guardar(cliente);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e);
+        }
+
+        return ResponseEntity.ok(result);
     }
 
 
     @PutMapping("/clienteEliminar/{id}")
-    public ResponseEntity<Cliente> eliminar(@PathVariable Integer id){
-    //  mover a un servicio
-        Cliente model = clienteServicio.buscarPorId(id);
-        if (model == null)
-            throw new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id);
+    public ResponseEntity<?> eliminar(@PathVariable Integer id) {
+        Cliente cliente;
 
-        model.setEstado(1);
+        try {
+            cliente = clienteServicio.buscarPorId(id);
+            clienteServicio.eliminar(cliente);
+        } catch (RecursoNoEncontradoExcepcion notFound) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e);
+        }
 
-        clienteServicio.guardar(model);
-    // />
-        return ResponseEntity.ok(model);
-    }
-
-    @GetMapping("/cliente/{id}")
-    public ResponseEntity<Cliente> getPorId(@PathVariable Integer id){
-        //Mover a un servicio
-        
-        Cliente cliente = clienteServicio.buscarPorId(id);
-        if(cliente == null)
-            throw new RecursoNoEncontradoExcepcion("No se encontro el id: " + id);
-
-        // />
-
+        logger.info(String.format("Cliente con id %o eliminado con exito", id));
         return ResponseEntity.ok(cliente);
     }
 
+    @GetMapping("/cliente/{id}")
+    public ResponseEntity<?> getPorId(@PathVariable Integer id) {
+        Cliente cliente;
+        
+         try {
+            cliente = clienteServicio.buscarPorId(id);
+        } catch (RecursoNoEncontradoExcepcion notFound) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e);
+        }
+        
+        return ResponseEntity.ok(new ClienteDTO(cliente));
+
+    }
+
     @PutMapping("/clientes/{id}")
-    public ResponseEntity<Cliente> actualizar(@PathVariable Integer id,
-                                              @RequestBody Cliente modelRecibido){
-        // mover a un servicio 
-        Cliente model = clienteServicio.buscarPorId(id);
-        if (model == null)
-            throw new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id);
+    public ResponseEntity<?> actualizar(@PathVariable Integer id,
+                                              @RequestBody ClienteDTO modelRecibido) {
 
-        clienteServicio.guardar(modelRecibido);
+       Cliente cliente;                                                
+    
+       try {
+            cliente = clienteServicio.buscarPorId(id);
+            clienteServicio.guardar(clienteServicio.update(modelRecibido, cliente));
+        } catch (RecursoNoEncontradoExcepcion notFound) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e);
+        }                                  
 
-        // />
-        return ResponseEntity.ok(modelRecibido);
+        logger.info(String.format("Cliente con id %o actualizado con exito", id));
+        return ResponseEntity.ok(cliente);
     }
 
 }

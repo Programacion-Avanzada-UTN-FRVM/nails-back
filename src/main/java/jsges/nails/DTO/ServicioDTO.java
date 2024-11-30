@@ -1,9 +1,9 @@
-package jsges.nails.DTO.servicios;
+package jsges.nails.DTO;
 
-import jsges.nails.DTO.Organizacion.ClienteDTO;
-import jsges.nails.domain.organizacion.Cliente;
-import jsges.nails.domain.servicios.ItemServicio;
-import jsges.nails.domain.servicios.Servicio;
+import jsges.nails.DTO.ClienteDTO;
+import jsges.nails.domain.Cliente;
+import jsges.nails.domain.ItemServicio;
+import jsges.nails.domain.Servicio;
 
 import java.sql.Timestamp;
 import java.util.HashSet;

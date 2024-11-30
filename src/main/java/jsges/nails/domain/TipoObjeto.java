@@ -16,22 +16,26 @@ public class TipoObjeto implements Serializable {
         @SequenceGenerator(name = "tipo_objeto_id_seq", sequenceName = "tipo_objeto_id_seq", allocationSize = 1)
         private Integer id;
 
+        //no tiene etiqueta
         private int codigo;
 
         @Column(columnDefinition = "TEXT")
         private String denominacion;
+
+        //no tiene etiqueta
         private int estado;
 
         @Column(columnDefinition = "TEXT")
         private String detalle;
 
 
+        //nombre del metodo !?
         public void asEliminado() {
             this.setEstado(1);
         }
 
         @Override
-        public int hashCode() {
+        public int hashCode() { //esto esta mal
             int hash = 7;
             return hash;
         }
