@@ -67,6 +67,7 @@ public class ArticuloVentaController {
         return ResponseEntity.ok(result);
     }
 
+
     @DeleteMapping("/articuloEliminar/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Integer id) {
         ArticuloVenta model;
