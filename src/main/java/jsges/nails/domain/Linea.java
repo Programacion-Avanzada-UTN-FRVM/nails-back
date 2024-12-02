@@ -13,15 +13,6 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Linea extends TipoObjeto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(columnDefinition = "TEXT")
-    String denominacion;
-
-    int estado;
-
     @Column(columnDefinition = "TEXT")
     String observacion;
 
