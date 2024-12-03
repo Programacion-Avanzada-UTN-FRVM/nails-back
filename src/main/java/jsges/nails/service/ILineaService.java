@@ -28,5 +28,5 @@ public interface ILineaService {
 
     public Linea newModel(LineaDTO model);
 
-    public Linea update(LineaDTO modelRecibido, Linea model);
+    public LineaDTO update(LineaDTO modelRecibido, Linea model);
 }

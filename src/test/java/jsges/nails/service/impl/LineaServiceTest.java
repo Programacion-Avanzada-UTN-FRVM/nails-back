@@ -156,7 +156,7 @@ class LineaServiceTest {
         LineaDTO mockDto = new LineaDTO();
         mockDto.setDenominacion("New Denomination");
 
-        Linea result = service.update(mockDto, mockLinea);
+        LineaDTO result = service.update(mockDto, mockLinea);
 
         assertNotNull(result);
         assertEquals("New Denomination", result.getDenominacion());

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
 
 
 @Service
@@ -59,6 +59,7 @@ public class ArticuloVentaService implements IArticuloVentaService{
         newModel.setDenominacion(model.denominacion);
         newModel.setLinea(lineaService.buscarPorId(idLinea));
 
+//        modelRepository.deleteAllByIdInBatch(List.of(model.id));
         return modelRepository.save(newModel);
     }
 
@@ -104,6 +105,8 @@ public class ArticuloVentaService implements IArticuloVentaService{
         model.setDenominacion(modelRecibido.denominacion);
         model.setLinea(lineaService.buscarPorId(modelRecibido.linea));
 
+        modelRepository.save(model);
+        
         return new ArticuloVentaDTO(model);
     }
 

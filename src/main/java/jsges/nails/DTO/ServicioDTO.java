@@ -21,6 +21,7 @@ public class ServicioDTO{
     public Set<ItemServicioDTO> listaItems = new HashSet<>();
     public Double total;
     public String clienteRazonSocial;
+    
     public ServicioDTO() {
 
     }

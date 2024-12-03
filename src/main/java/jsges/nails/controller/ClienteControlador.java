@@ -107,7 +107,7 @@ public class ClienteControlador {
     
        try {
             cliente = clienteServicio.buscarPorId(id);
-            clienteServicio.guardar(clienteServicio.update(modelRecibido, cliente));
+            clienteServicio.update(modelRecibido, cliente);
         } catch (RecursoNoEncontradoExcepcion notFound) {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {

@@ -23,7 +23,6 @@ public class ClienteDTO {
         this.razonSocial=model.getRazonSocial();
         this.celular=model.getCelular();
         this.mail=model.getMail();
-
     }
 
 }

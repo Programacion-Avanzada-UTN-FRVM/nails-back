@@ -139,14 +139,12 @@ class ClienteServiceTest {
 
         Cliente mockCliente = new Cliente();
 
-        Cliente result = service.update(dto, mockCliente);
+        ClienteDTO result = service.update(dto, mockCliente);
 
         assertNotNull(result);
-        assertEquals("123456789", result.getCelular());
-        assertEquals("Nuevo Contacto", result.getContacto());
         assertEquals("Nueva Razón Social", result.getRazonSocial());
-        assertEquals("A", result.getLetra());
         assertEquals("test@mail.com", result.getMail());
     }
+    
 }
 

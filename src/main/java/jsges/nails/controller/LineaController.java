@@ -103,7 +103,7 @@ public class LineaController {
                                                      
         try {
             model = modelService.buscarPorId(id);
-            modelService.guardar(modelService.update(modelRecibido, model));
+            modelService.update(modelRecibido, model);
         } catch (RecursoNoEncontradoExcepcion notFound) {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {

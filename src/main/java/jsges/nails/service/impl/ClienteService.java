@@ -85,7 +85,7 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public Cliente update(ClienteDTO modelRecibido, Cliente model) {
+    public ClienteDTO update(ClienteDTO modelRecibido, Cliente model) {
         model.setCelular(modelRecibido.getCelular());
         model.setContacto(modelRecibido.getContacto());
         model.setRazonSocial(modelRecibido.getRazonSocial());
@@ -94,7 +94,9 @@ public class ClienteService implements IClienteService {
         model.setFechaInicio(modelRecibido.getFechaInicio());
         model.setFechaNacimiento(modelRecibido.getFechaNacimiento());
 
-        return model;
+        clienteRepository.save(model);
+
+        return new ClienteDTO(model);
     }
     
     private List<ClienteDTO> convertListOfClienteToDTO(List<Cliente> list) {
@@ -106,6 +108,5 @@ public class ClienteService implements IClienteService {
 
         return result;
     }
-
 
 }

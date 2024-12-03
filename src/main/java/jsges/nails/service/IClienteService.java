@@ -23,5 +23,5 @@ public interface IClienteService {
 
     public Page<ClienteDTO> findPaginated(Pageable pageable, List<ClienteDTO> clientes);
 
-    public Cliente update(ClienteDTO modelRecibido, Cliente model);
+    public ClienteDTO update(ClienteDTO modelRecibido, Cliente model);
 }

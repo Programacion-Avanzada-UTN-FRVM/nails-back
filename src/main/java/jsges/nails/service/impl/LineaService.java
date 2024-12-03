@@ -103,10 +103,12 @@ public class LineaService implements ILineaService {
     }
 
     @Override
-    public Linea update(LineaDTO modelRecibido, Linea model) {
+    public LineaDTO update(LineaDTO modelRecibido, Linea model) {
         model.setDenominacion(modelRecibido.denominacion);
 
-        return model;
+        modelRepository.save(model);
+
+        return new LineaDTO(model);
     }
 
     private List<LineaDTO> convertListOfLineaToDTO(List<Linea> list) {
