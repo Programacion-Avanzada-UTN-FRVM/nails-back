@@ -5,9 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import jsges.nails.DTO.TipoServicioDTO;
-
 import jsges.nails.domain.TipoServicio;
+import jsges.nails.dto.TipoServicioDTO;
 
 public interface ITipoServicioService {
 

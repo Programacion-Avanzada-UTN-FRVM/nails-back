@@ -1,9 +1,9 @@
 package jsges.nails.service.impl;
 
-import jsges.nails.DTO.ArticuloVentaDTO;
-import jsges.nails.DTO.ClienteDTO;
 import jsges.nails.domain.ArticuloVenta;
 import jsges.nails.domain.Cliente;
+import jsges.nails.dto.ArticuloVentaDTO;
+import jsges.nails.dto.ClienteDTO;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.repository.ClienteRepository;
 import jsges.nails.service.IClienteService;

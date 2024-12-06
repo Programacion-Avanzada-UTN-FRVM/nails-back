@@ -1,25 +1,28 @@
 package jsges.nails.service.impl;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import jsges.nails.DTO.ArticuloVentaDTO;
 import jsges.nails.domain.ArticuloVenta;
 import jsges.nails.domain.Linea;
+import jsges.nails.dto.ArticuloVentaDTO;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.repository.ArticuloVentaRepository;
 import jsges.nails.service.ILineaService;
@@ -35,14 +38,17 @@ class ArticuloVentaServiceTest {
     @Mock
     private ILineaService lineaService;
 
+    ArticuloVenta articuloTest;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        articuloTest = ArticuloVenta.builder().linea(Linea.builder().observacion("test").build()).build();
     }
 
     @Test
     void testListar() {
-        List<ArticuloVenta> mockList = List.of(new ArticuloVenta());
+        List<ArticuloVenta> mockList = List.of(articuloTest);
         when(repository.buscarNoEliminados()).thenReturn(mockList);
 
         List<ArticuloVentaDTO> result = service.listar();
@@ -110,7 +116,7 @@ class ArticuloVentaServiceTest {
 
     @Test
     void testListarPorConsulta() {
-        List<ArticuloVenta> mockList = List.of(new ArticuloVenta());
+        List<ArticuloVenta> mockList = List.of(articuloTest);
         when(repository.buscarNoEliminados("test")).thenReturn(mockList);
 
         List<ArticuloVentaDTO> result = service.listar("test");

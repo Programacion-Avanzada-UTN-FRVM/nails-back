@@ -13,11 +13,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import jsges.nails.DTO.ItemServicioDTO;
-import jsges.nails.DTO.ServicioDTO;
 import jsges.nails.domain.ItemServicio;
 import jsges.nails.domain.Servicio;
 import jsges.nails.domain.TipoServicio;
+import jsges.nails.dto.ItemServicioDTO;
+import jsges.nails.dto.ServicioDTO;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.repository.ServicioRepository;
 import jsges.nails.service.IClienteService;

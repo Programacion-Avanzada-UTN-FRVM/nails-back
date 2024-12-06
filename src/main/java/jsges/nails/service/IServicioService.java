@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import jsges.nails.DTO.ServicioDTO;
 import jsges.nails.domain.Servicio;
+import jsges.nails.dto.ServicioDTO;
 
 public interface IServicioService {
     public List<ServicioDTO> listar();

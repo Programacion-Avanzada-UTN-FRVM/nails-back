@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jsges.nails.DTO.ClienteDTO;
 import jsges.nails.domain.Cliente;
+import jsges.nails.dto.ClienteDTO;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.service.IClienteService;
 import lombok.NoArgsConstructor;

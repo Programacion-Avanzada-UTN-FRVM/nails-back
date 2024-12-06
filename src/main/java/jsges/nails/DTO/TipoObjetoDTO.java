@@ -1,4 +1,4 @@
-package jsges.nails.DTO;
+package jsges.nails.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

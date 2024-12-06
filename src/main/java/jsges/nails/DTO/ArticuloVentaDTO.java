@@ -1,10 +1,9 @@
-package jsges.nails.DTO;
+package jsges.nails.dto;
 
 import jsges.nails.domain.ArticuloVenta;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 @AllArgsConstructor
 @NoArgsConstructor

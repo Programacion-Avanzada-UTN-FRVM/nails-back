@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jsges.nails.DTO.ServicioDTO;
 import jsges.nails.domain.ItemServicio;
 import jsges.nails.domain.Servicio;
+import jsges.nails.dto.ServicioDTO;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.service.IItemServicioService;
 import jsges.nails.service.IServicioService;

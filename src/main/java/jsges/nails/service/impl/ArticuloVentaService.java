@@ -1,7 +1,7 @@
 package jsges.nails.service.impl;
 
-import jsges.nails.DTO.ArticuloVentaDTO;
 import jsges.nails.domain.ArticuloVenta;
+import jsges.nails.dto.ArticuloVentaDTO;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.repository.ArticuloVentaRepository;
 import jsges.nails.service.IArticuloVentaService;

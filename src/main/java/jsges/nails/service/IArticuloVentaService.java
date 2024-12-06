@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import jsges.nails.DTO.ArticuloVentaDTO;
 import jsges.nails.domain.ArticuloVenta;
+import jsges.nails.dto.ArticuloVentaDTO;
 
 public interface IArticuloVentaService {
 

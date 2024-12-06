@@ -1,7 +1,8 @@
 package jsges.nails.domain;
 
 import jakarta.persistence.*;
-import jsges.nails.DTO.LineaDTO;
+import jsges.nails.dto.LineaDTO;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import lombok.ToString;
 @Data
 @ToString
 @NoArgsConstructor
+@Builder
 public class Linea extends TipoObjeto {
 
     @Column(columnDefinition = "TEXT")

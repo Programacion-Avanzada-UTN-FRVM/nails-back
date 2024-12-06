@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import jsges.nails.DTO.LineaDTO;
 import jsges.nails.domain.Linea;
+import jsges.nails.dto.LineaDTO;
 
 public interface ILineaService {
 

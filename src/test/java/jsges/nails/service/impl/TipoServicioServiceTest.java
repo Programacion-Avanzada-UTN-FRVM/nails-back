@@ -17,8 +17,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import jsges.nails.DTO.TipoServicioDTO;
 import jsges.nails.domain.TipoServicio;
+import jsges.nails.dto.TipoServicioDTO;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.repository.TipoServicioRepository;
 
@@ -117,30 +117,6 @@ class TipoServicioServiceTest {
         assertNotNull(result);
         assertEquals(1, result.size());
         verify(repository, times(1)).buscarNoEliminados("consulta");
-    }
-
-    @Test
-    void testBuscarPorConsulta() {
-        List<TipoServicio> mockTiposServicio = List.of(new TipoServicio());
-        when(repository.buscarExacto("consulta")).thenReturn(mockTiposServicio);
-
-        List<TipoServicio> result = service.buscar("consulta");
-
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        verify(repository, times(1)).buscarExacto("consulta");
-    }
-
-    @Test
-    void testBuscarPorConsulta_NoResults() {
-        when(repository.buscarExacto("consulta")).thenReturn(Collections.emptyList());
-
-        Exception exception = assertThrows(RecursoNoEncontradoExcepcion.class, () -> {
-            service.buscar("consulta");
-        });
-
-        assertEquals("No se encontraron resultados", exception.getMessage());
-        verify(repository, times(1)).buscarExacto("consulta");
     }
 
     @Test

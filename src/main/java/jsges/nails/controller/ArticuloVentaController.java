@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jsges.nails.DTO.ArticuloVentaDTO;
 import jsges.nails.domain.ArticuloVenta;
+import jsges.nails.dto.ArticuloVentaDTO;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.service.IArticuloVentaService;
 import lombok.NoArgsConstructor;
@@ -69,7 +69,7 @@ public class ArticuloVentaController {
 
 
     @DeleteMapping("/articuloEliminar/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Integer id) {
+    public ResponseEntity<?> eliminar(@PathVariable("id") int id) {
         ArticuloVenta model;
 
         try {
@@ -86,7 +86,7 @@ public class ArticuloVentaController {
     }
 
     @GetMapping("/articulos/{id}")
-    public ResponseEntity<?> getPorId(@PathVariable Integer id) {
+    public ResponseEntity<?> getPorId(@PathVariable int id) {
         ArticuloVenta articuloVenta;
             
         try {
@@ -101,7 +101,7 @@ public class ArticuloVentaController {
     }
 
     @PutMapping("/articulos/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable Integer id,
+    public ResponseEntity<?> actualizar(@PathVariable int id,
                                                     @RequestBody ArticuloVentaDTO modelRecibido) {
 
         ArticuloVenta model;   

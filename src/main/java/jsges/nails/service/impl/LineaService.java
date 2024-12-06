@@ -1,7 +1,7 @@
 package jsges.nails.service.impl;
 
-import jsges.nails.DTO.LineaDTO;
 import jsges.nails.domain.Linea;
+import jsges.nails.dto.LineaDTO;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.repository.LineaRepository;
 import jsges.nails.service.ILineaService;

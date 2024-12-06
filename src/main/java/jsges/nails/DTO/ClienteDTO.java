@@ -1,4 +1,4 @@
-package jsges.nails.DTO;
+package jsges.nails.dto;
 import java.util.Date;
 
 import jsges.nails.domain.Cliente;

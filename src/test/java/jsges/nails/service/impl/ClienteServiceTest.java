@@ -17,8 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import jsges.nails.DTO.ClienteDTO;
 import jsges.nails.domain.Cliente;
+import jsges.nails.dto.ClienteDTO;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.repository.ClienteRepository;
 
