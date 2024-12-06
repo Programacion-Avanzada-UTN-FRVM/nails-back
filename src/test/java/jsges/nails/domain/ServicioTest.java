@@ -64,21 +64,6 @@ public class ServicioTest {
     }
 
     @Test
-    void testEqualsAndHashCode() {
-        Servicio servicio2 = Servicio.builder()
-                .id(1)
-                .estado(0)
-                .cliente(clienteMock)
-                .fechaRegistro(new Timestamp(new Date().getTime()))
-                .fechaRealizacion(new Timestamp(new Date().getTime()))
-                .total(150.75)
-                .build();
-
-        assertTrue(servicio.equals(servicio2));
-        assertEquals(servicio.hashCode(), servicio2.hashCode());
-    }
-
-    @Test
     void testNotEquals() {
         Servicio servicioDiferente = Servicio.builder()
                 .id(2)

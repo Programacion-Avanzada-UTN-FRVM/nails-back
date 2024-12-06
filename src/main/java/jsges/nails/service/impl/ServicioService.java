@@ -69,6 +69,7 @@ public class ServicioService implements IServicioService {
     @Override
     public ServicioDTO guardar(ServicioDTO model) {
         Integer idCliente = model.cliente;
+        List<ItemServicio> listaItems = new ArrayList<>();
 
         Servicio newModel =  new Servicio();
         newModel.setCliente(clienteService.buscarPorId(idCliente));
@@ -80,17 +81,17 @@ public class ServicioService implements IServicioService {
 
         for (ItemServicioDTO elemento : model.listaItems) {
             double precio = elemento.getPrecio();
-            logger.info("entra for");
 
             TipoServicio tipoServicio = tipoServicioService.buscarPorId(elemento.getTipoServicioId());
             String observacion = elemento.getObservaciones();
             ItemServicio item = new ItemServicio(newModel, tipoServicio, precio,observacion);
 
+            listaItems.add(item);
             itemServicioService.guardar(item);
 
         }
         
-        return new ServicioDTO(servicioGuardado);
+        return new ServicioDTO(servicioGuardado, listaItems);
     }
 
     @Override
