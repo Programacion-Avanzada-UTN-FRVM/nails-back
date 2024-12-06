@@ -1,0 +1,161 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ItemServicioService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">jsges.nails.service.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: ItemServicioService (jsges.nails.service.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ItemServicioService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package jsges.nails.service.impl;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import jsges.nails.domain.ItemServicio;
+&nbsp;import jsges.nails.repository.ItemServicioRepository;
+&nbsp;import jsges.nails.service.IItemServicioService;
+&nbsp;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class ItemServicioService implements IItemServicioService {</b>
+&nbsp;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private ItemServicioRepository modelRepository;
+<b class="fc">&nbsp;    private final Logger log = LoggerFactory.getLogger(ItemServicioService.class);</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;ItemServicio&gt; listar() {
+<b class="fc">&nbsp;        List&lt;ItemServicio&gt; items = modelRepository.findAll();</b>
+<b class="fc">&nbsp;        log.info(&quot;Items desde el repositorio: &quot; + items);</b>
+&nbsp;
+<b class="fc">&nbsp;        return items; //devolver lsita de ItemServicioDTO ?!?!?!?</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ItemServicio buscarPorId(Integer id) {
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ItemServicio guardar(ItemServicio model) {
+<b class="fc">&nbsp;        return modelRepository.save(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Page&lt;ItemServicio&gt; findPaginated(Pageable pageable, List&lt;ItemServicio&gt; servicios) {
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Page&lt;ItemServicio&gt; getItemServicios(Pageable pageable) {
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public List&lt;ItemServicio&gt; buscarPorServicio(Integer idServicio){
+&nbsp;
+<b class="fc">&nbsp;        return modelRepository.buscarPorServicio(idServicio);</b>
+&nbsp;    };
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-05 23:41</div>
+</div>
+</body>
+</html>

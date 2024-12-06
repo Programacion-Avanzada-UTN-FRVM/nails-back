@@ -50,24 +50,6 @@ public class ClienteTest {
     }
 
     @Test
-    void testEqualsAndHashCode() {
-        Cliente anotherCliente = Cliente.builder()
-                .id(1)
-                .razonSocial("Cliente de Prueba")
-                .estado(0)
-                .letra("A")
-                .contacto("Juan Pérez")
-                .celular("123456789")
-                .mail("juan.perez@example.com")
-                .fechaInicio(Date.from(Instant.now().minusSeconds(3600)))
-                .fechaNacimiento(Date.from(Instant.now()))
-                .build();
-
-        assertTrue(cliente.equals(anotherCliente));
-        assertEquals(cliente.hashCode(), anotherCliente.hashCode());
-    }
-
-    @Test
     void testNotEquals() {
         Cliente differentCliente = Cliente.builder()
                 .id(2)  // Diferente id

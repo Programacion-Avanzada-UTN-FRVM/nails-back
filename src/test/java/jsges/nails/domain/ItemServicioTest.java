@@ -22,10 +22,8 @@ public class ItemServicioTest {
 
     @BeforeEach
     void setUp() {
-        // Inicializa los mocks
         MockitoAnnotations.openMocks(this);
 
-        // Crea la instancia de ItemServicio
         itemServicio = ItemServicio.builder()
                 .id(1)
                 .estado(0)

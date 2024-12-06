@@ -18,13 +18,11 @@ public class ItemServicioDTO {
     private String observaciones;
 
     public ItemServicioDTO(ItemServicio itemServicio) {
-        ItemServicioDTO.builder()
-        .id(itemServicio.getId())
-        .tipoServicio(itemServicio.getTipoServicio().getDenominacion())
-        .tipoServicioId(itemServicio.getTipoServicio().getCodigo())
-        .precio(itemServicio.getPrecio())
-        .observaciones(itemServicio.getObservacion())
-        .build();
+        this.id = itemServicio.getId();
+        this.tipoServicio = itemServicio.getTipoServicio().getDenominacion();
+        this.tipoServicioId = itemServicio.getTipoServicio().getCodigo();
+        this.precio = itemServicio.getPrecio();
+        this.observaciones = itemServicio.getObservacion();
     }
 
 }

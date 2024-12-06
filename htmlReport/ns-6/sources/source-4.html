@@ -1,0 +1,240 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LineaService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">jsges.nails.service.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: LineaService (jsges.nails.service.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LineaService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85.7%
+  </span>
+  <span class="absValue">
+    (12/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (3/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.1%
+  </span>
+  <span class="absValue">
+    (30/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package jsges.nails.service.impl;
+&nbsp;
+&nbsp;import jsges.nails.domain.Linea;
+&nbsp;import jsges.nails.dto.LineaDTO;
+&nbsp;import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
+&nbsp;import jsges.nails.repository.LineaRepository;
+&nbsp;import jsges.nails.service.ILineaService;
+&nbsp;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.PageImpl;
+&nbsp;import org.springframework.data.domain.PageRequest;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class LineaService implements ILineaService {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private LineaRepository modelRepository;
+<b class="fc">&nbsp;    private static final Logger logger = LoggerFactory.getLogger(LineaService.class);</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;LineaDTO&gt; listar() {
+<b class="fc">&nbsp;        List&lt;Linea&gt; list = modelRepository.buscarNoEliminados();</b>
+&nbsp;
+<b class="fc">&nbsp;        return convertListOfLineaToDTO(list);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Linea buscarPorId(Integer id) {
+<b class="fc">&nbsp;        Linea linea = modelRepository.findById(id).orElse(null);</b>
+&nbsp;
+<b class="fc">&nbsp;        if(linea == null) {</b>
+<b class="fc">&nbsp;            throw new RecursoNoEncontradoExcepcion(&quot;No se encontro el id: &quot; + id);</b>
+&nbsp;        }
+&nbsp;        
+<b class="fc">&nbsp;        return linea;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Linea guardar(Linea model) {
+<b class="fc">&nbsp;        return modelRepository.save(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Linea newModel(LineaDTO modelDTO) {
+<b class="fc">&nbsp;        Linea model =  new Linea(modelDTO);</b>
+<b class="fc">&nbsp;        return guardar(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void eliminar(Linea model) {
+<b class="nc">&nbsp;        model.eliminar();</b>
+<b class="nc">&nbsp;        modelRepository.save(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;LineaDTO&gt; listar(String consulta) {
+<b class="fc">&nbsp;        List&lt;Linea&gt; list = modelRepository.buscarNoEliminados(consulta);</b>
+&nbsp;
+<b class="fc">&nbsp;        return convertListOfLineaToDTO(list);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Page&lt;Linea&gt; getLineas(Pageable pageable) {
+<b class="fc">&nbsp;        return  modelRepository.findAll(pageable);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Linea&gt; buscar(String consulta) {
+<b class="nc">&nbsp;        List&lt;Linea&gt; list = modelRepository.buscarExacto(consulta);</b>
+&nbsp;
+<b class="nc">&nbsp;         if (!list.isEmpty()){</b>
+<b class="nc">&nbsp;            throw new RecursoNoEncontradoExcepcion(&quot;Error con la consulta&quot;);</b>
+&nbsp;        }
+&nbsp;        
+<b class="nc">&nbsp;        return list;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Page&lt;LineaDTO&gt; findPaginated(Pageable pageable, List&lt;LineaDTO&gt;lineas) {
+<b class="fc">&nbsp;        int pageSize = pageable.getPageSize();</b>
+<b class="fc">&nbsp;        int currentPage = pageable.getPageNumber();</b>
+<b class="fc">&nbsp;        int startItem = currentPage * pageSize;</b>
+&nbsp;        List&lt;LineaDTO&gt; list;
+<b class="pc">&nbsp;        if (lineas.size() &lt; startItem) {</b>
+<b class="nc">&nbsp;            list = Collections.emptyList();</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            int toIndex = Math.min(startItem + pageSize, lineas.size());</b>
+<b class="fc">&nbsp;            list = lineas.subList(startItem, toIndex);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Page&lt;LineaDTO&gt; bookPage</b>
+<b class="fc">&nbsp;                = new PageImpl&lt;LineaDTO&gt;(list, PageRequest.of(currentPage, pageSize), lineas.size());</b>
+&nbsp;
+<b class="fc">&nbsp;        return bookPage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public LineaDTO update(LineaDTO modelRecibido, Linea model) {
+<b class="fc">&nbsp;        model.setDenominacion(modelRecibido.denominacion);</b>
+&nbsp;
+<b class="fc">&nbsp;        modelRepository.save(model);</b>
+&nbsp;
+<b class="fc">&nbsp;        return new LineaDTO(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private List&lt;LineaDTO&gt; convertListOfLineaToDTO(List&lt;Linea&gt; list) {
+<b class="fc">&nbsp;        List&lt;LineaDTO&gt; result = new ArrayList&lt;&gt;();</b>
+&nbsp;        
+<b class="fc">&nbsp;        list.forEach((model) -&gt; {</b>
+<b class="fc">&nbsp;            result.add(new LineaDTO(model));</b>
+&nbsp;        });
+&nbsp;
+<b class="fc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-05 23:41</div>
+</div>
+</body>
+</html>

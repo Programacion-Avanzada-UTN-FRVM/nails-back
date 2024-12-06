@@ -11,12 +11,14 @@ import jsges.nails.domain.ItemServicio;
 import jsges.nails.domain.Servicio;
 import jsges.nails.domain.TipoServicio;
 
+
 import java.sql.Timestamp;
 
 public class ItemServicioDTOTest {
     
     @Test
     void testItemServicioDTOConstructor() {
+        ItemServicioDTO itemServicioDTO;
         Servicio servicio = new Servicio();
         servicio.setId(1);
         servicio.setEstado(0);
@@ -30,7 +32,7 @@ public class ItemServicioDTOTest {
 
         ItemServicio itemServicio = new ItemServicio(servicio, tipoServicio, 100.0, "Observación");
 
-        ItemServicioDTO itemServicioDTO = new ItemServicioDTO(itemServicio);
+        itemServicioDTO = new ItemServicioDTO(itemServicio);
 
         assertEquals(itemServicio.getId(), itemServicioDTO.getId());
         assertEquals("Tipo A", itemServicioDTO.getTipoServicio());

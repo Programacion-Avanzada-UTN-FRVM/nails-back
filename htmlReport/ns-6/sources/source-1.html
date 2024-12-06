@@ -1,0 +1,241 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArticuloVentaService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">jsges.nails.service.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: ArticuloVentaService (jsges.nails.service.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArticuloVentaService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.2%
+  </span>
+  <span class="absValue">
+    (35/36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package jsges.nails.service.impl;
+&nbsp;
+&nbsp;import jsges.nails.domain.ArticuloVenta;
+&nbsp;import jsges.nails.dto.ArticuloVentaDTO;
+&nbsp;import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
+&nbsp;import jsges.nails.repository.ArticuloVentaRepository;
+&nbsp;import jsges.nails.service.IArticuloVentaService;
+&nbsp;import jsges.nails.service.ILineaService;
+&nbsp;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.PageImpl;
+&nbsp;import org.springframework.data.domain.PageRequest;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class ArticuloVentaService implements IArticuloVentaService{</b>
+&nbsp;    @Autowired
+&nbsp;    private ArticuloVentaRepository modelRepository;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private ILineaService lineaService;
+&nbsp;
+<b class="fc">&nbsp;    private static final Logger logger = LoggerFactory.getLogger(ArticuloVentaService.class);</b>
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;ArticuloVentaDTO&gt; listar() {
+<b class="fc">&nbsp;        List&lt;ArticuloVenta&gt; list = modelRepository.buscarNoEliminados();</b>
+&nbsp;
+<b class="fc">&nbsp;        return convertListOfArticulesToDTO(list);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ArticuloVenta buscarPorId(Integer id) {
+<b class="fc">&nbsp;        ArticuloVenta articuloVenta = modelRepository.findById(id).orElse(null);</b>
+&nbsp;
+<b class="fc">&nbsp;        if(articuloVenta == null) {</b>
+<b class="fc">&nbsp;            throw new RecursoNoEncontradoExcepcion(&quot;No se encontro el id: &quot; + id);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return articuloVenta;</b>
+&nbsp;    } 
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ArticuloVenta guardar(ArticuloVentaDTO model) {
+<b class="fc">&nbsp;        Integer idLinea = model.linea;</b>
+&nbsp;
+<b class="fc">&nbsp;        ArticuloVenta newModel =  new ArticuloVenta();</b>
+<b class="fc">&nbsp;        newModel.setDenominacion(model.denominacion);</b>
+<b class="fc">&nbsp;        newModel.setLinea(lineaService.buscarPorId(idLinea));</b>
+&nbsp;
+&nbsp;//        modelRepository.deleteAllByIdInBatch(List.of(model.id));
+<b class="fc">&nbsp;        return modelRepository.save(newModel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void eliminar(ArticuloVenta model) {
+<b class="fc">&nbsp;        model.eliminar();</b>
+<b class="fc">&nbsp;        modelRepository.save(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;ArticuloVentaDTO&gt; listar(String consulta) {
+<b class="fc">&nbsp;        List&lt;ArticuloVenta&gt; list = modelRepository.buscarNoEliminados(consulta);</b>
+&nbsp;
+<b class="fc">&nbsp;        return convertListOfArticulesToDTO(list);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Page&lt;ArticuloVenta&gt; getArticulos(Pageable pageable) {
+<b class="fc">&nbsp;        return  modelRepository.findAll(pageable);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Page&lt;ArticuloVentaDTO&gt; findPaginated(Pageable pageable, List&lt;ArticuloVentaDTO&gt; list) {
+<b class="fc">&nbsp;        int pageSize = pageable.getPageSize();</b>
+<b class="fc">&nbsp;        int currentPage = pageable.getPageNumber();</b>
+<b class="fc">&nbsp;        int startItem = currentPage * pageSize;</b>
+&nbsp;        List&lt;ArticuloVentaDTO&gt; listado;
+<b class="pc">&nbsp;        if (list.size() &lt; startItem) {</b>
+<b class="nc">&nbsp;            listado = Collections.emptyList();</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            int toIndex = Math.min(startItem + pageSize, list.size());</b>
+<b class="fc">&nbsp;            listado = list.subList(startItem, toIndex);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Page&lt;ArticuloVentaDTO&gt; bookPage</b>
+<b class="fc">&nbsp;                = new PageImpl&lt;ArticuloVentaDTO&gt;(list, PageRequest.of(currentPage, pageSize), listado.size());</b>
+&nbsp;
+<b class="fc">&nbsp;        return bookPage;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Override
+&nbsp;    public ArticuloVentaDTO update(ArticuloVentaDTO modelRecibido, ArticuloVenta model) {
+<b class="fc">&nbsp;        model.setDenominacion(modelRecibido.denominacion);</b>
+<b class="fc">&nbsp;        model.setLinea(lineaService.buscarPorId(modelRecibido.linea));</b>
+&nbsp;
+<b class="fc">&nbsp;        modelRepository.save(model);</b>
+&nbsp;        
+<b class="fc">&nbsp;        return new ArticuloVentaDTO(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private List&lt;ArticuloVentaDTO&gt; convertListOfArticulesToDTO(List&lt;ArticuloVenta&gt; list) {
+<b class="fc">&nbsp;        List&lt;ArticuloVentaDTO&gt; result = new ArrayList&lt;&gt;();</b>
+&nbsp;        
+<b class="fc">&nbsp;        list.forEach((model) -&gt; {</b>
+<b class="fc">&nbsp;            result.add(new ArticuloVentaDTO(model));</b>
+&nbsp;        });
+&nbsp;
+<b class="fc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-05 23:41</div>
+</div>
+</body>
+</html>

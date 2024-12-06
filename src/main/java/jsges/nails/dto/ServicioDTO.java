@@ -1,9 +1,7 @@
 package jsges.nails.dto;
 
-import jsges.nails.domain.Cliente;
 import jsges.nails.domain.ItemServicio;
 import jsges.nails.domain.Servicio;
-import jsges.nails.dto.ClienteDTO;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -46,7 +44,6 @@ public class ServicioDTO{
         this.clienteRazonSocial = elemento.getCliente().getRazonSocial();
         this.fechaDocumento = elemento.getFechaRealizacion();
         this.total= elemento.getTotal();
-
 
     }
 }

@@ -12,7 +12,7 @@ class ArticuloVentaTest {
 
     @BeforeEach
     void setUp() {
-        linea = new Linea(); // Asume que tienes una clase Linea configurada.
+        linea = new Linea();
         linea.setId(1);
 
         articuloVenta = ArticuloVenta.builder()
