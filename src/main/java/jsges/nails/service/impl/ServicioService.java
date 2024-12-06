@@ -75,6 +75,7 @@ public class ServicioService implements IServicioService {
         newModel.setCliente(clienteService.buscarPorId(idCliente));
         newModel.setFechaRegistro(model.fechaDocumento);
         newModel.setFechaRealizacion(model.fechaDocumento);
+        newModel.setTotal(model.total);
         newModel.setEstado(0);
 
         Servicio servicioGuardado = modelRepository.save(newModel);
