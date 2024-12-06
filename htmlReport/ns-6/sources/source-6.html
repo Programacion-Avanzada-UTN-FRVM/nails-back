@@ -1,0 +1,228 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TipoServicioService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">jsges.nails.service.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: TipoServicioService (jsges.nails.service.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TipoServicioService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.7%
+  </span>
+  <span class="absValue">
+    (11/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (3/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    84.4%
+  </span>
+  <span class="absValue">
+    (27/32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package jsges.nails.service.impl;
+&nbsp;
+&nbsp;import jsges.nails.domain.TipoServicio;
+&nbsp;import jsges.nails.dto.TipoServicioDTO;
+&nbsp;import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
+&nbsp;import jsges.nails.repository.TipoServicioRepository;
+&nbsp;import jsges.nails.service.ITipoServicioService;
+&nbsp;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.PageImpl;
+&nbsp;import org.springframework.data.domain.PageRequest;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class TipoServicioService implements ITipoServicioService {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private TipoServicioRepository modelRepository;
+<b class="fc">&nbsp;    private static final Logger logger = LoggerFactory.getLogger(TipoServicioService.class);</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;TipoServicio&gt; listar() {
+<b class="fc">&nbsp;        return modelRepository.buscarNoEliminados();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public TipoServicio buscarPorId(Integer id) {
+<b class="fc">&nbsp;        TipoServicio tipoServicio = modelRepository.findById(id).orElse(null);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (tipoServicio == null) {</b>
+<b class="fc">&nbsp;            throw new RecursoNoEncontradoExcepcion(&quot;No se encontraron resultados&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return tipoServicio;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public TipoServicio guardar(TipoServicio model) {
+<b class="fc">&nbsp;        return modelRepository.save(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public TipoServicio newModel(TipoServicioDTO modelDTO) {
+<b class="fc">&nbsp;        TipoServicio model =  new TipoServicio();</b>
+<b class="fc">&nbsp;        model.setDenominacion(modelDTO.denominacion);</b>
+<b class="fc">&nbsp;        return guardar(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void eliminar(TipoServicio model) {
+<b class="fc">&nbsp;        model.setEstado(1);</b>
+<b class="fc">&nbsp;        modelRepository.save(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;TipoServicio&gt; listar(String consulta) {
+&nbsp;        //logger.info(&quot;service &quot; +consulta);
+<b class="fc">&nbsp;        return modelRepository.buscarNoEliminados(consulta);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Page&lt;TipoServicio&gt; getTiposServicios(Pageable pageable) {
+<b class="fc">&nbsp;        return  modelRepository.findAll(pageable);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;TipoServicio&gt; buscar(String consulta) {
+<b class="nc">&nbsp;        List&lt;TipoServicio&gt; list =  modelRepository.buscarExacto(consulta);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (!list.isEmpty()){</b>
+<b class="nc">&nbsp;            throw new RecursoNoEncontradoExcepcion(&quot;No se encontraron resultados&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return list;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public TipoServicioDTO update(TipoServicioDTO modelRecibido, TipoServicio model){
+<b class="fc">&nbsp;        model.setDenominacion(modelRecibido.denominacion);</b>
+<b class="fc">&nbsp;        guardar(model);</b>
+&nbsp;
+<b class="fc">&nbsp;        return modelRecibido;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Page&lt;TipoServicio&gt; findPaginated(Pageable pageable, List&lt;TipoServicio&gt;lineas) {
+<b class="fc">&nbsp;        int pageSize = pageable.getPageSize();</b>
+<b class="fc">&nbsp;        int currentPage = pageable.getPageNumber();</b>
+<b class="fc">&nbsp;        int startItem = currentPage * pageSize;</b>
+&nbsp;        List&lt;TipoServicio&gt; list;
+<b class="pc">&nbsp;        if (lineas.size() &lt; startItem) {</b>
+<b class="nc">&nbsp;            list = Collections.emptyList();</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            int toIndex = Math.min(startItem + pageSize, lineas.size());</b>
+<b class="fc">&nbsp;            list = lineas.subList(startItem, toIndex);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Page&lt;TipoServicio&gt; bookPage</b>
+<b class="fc">&nbsp;                = new PageImpl&lt;TipoServicio&gt;(list, PageRequest.of(currentPage, pageSize), lineas.size());</b>
+&nbsp;
+<b class="fc">&nbsp;        return bookPage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-05 23:41</div>
+</div>
+</body>
+</html>

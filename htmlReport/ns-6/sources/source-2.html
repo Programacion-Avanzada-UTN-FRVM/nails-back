@@ -1,0 +1,228 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ClienteService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">jsges.nails.service.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: ClienteService (jsges.nails.service.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClienteService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.2%
+  </span>
+  <span class="absValue">
+    (35/36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package jsges.nails.service.impl;
+&nbsp;
+&nbsp;import jsges.nails.domain.ArticuloVenta;
+&nbsp;import jsges.nails.domain.Cliente;
+&nbsp;import jsges.nails.dto.ArticuloVentaDTO;
+&nbsp;import jsges.nails.dto.ClienteDTO;
+&nbsp;import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
+&nbsp;import jsges.nails.repository.ClienteRepository;
+&nbsp;import jsges.nails.service.IClienteService;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.PageImpl;
+&nbsp;import org.springframework.data.domain.PageRequest;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class ClienteService implements IClienteService {</b>
+&nbsp;   
+&nbsp;    @Autowired
+&nbsp;    private ClienteRepository clienteRepository;
+&nbsp;   
+<b class="fc">&nbsp;    private static final Logger logger = LoggerFactory.getLogger(ClienteService.class);</b>
+&nbsp;   
+&nbsp;    @Override
+&nbsp;    public List&lt;ClienteDTO&gt; listar() {
+<b class="fc">&nbsp;        List&lt;Cliente&gt; list = clienteRepository.buscarNoEliminados();</b>
+&nbsp;        
+<b class="fc">&nbsp;        return convertListOfClienteToDTO(list);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Cliente buscarPorId(Integer id) {
+<b class="fc">&nbsp;        Cliente model = clienteRepository.findById(id).orElse(null);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (model == null) {</b>
+<b class="fc">&nbsp;            throw new RecursoNoEncontradoExcepcion(&quot;No se encontro el id: &quot; + id);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return model;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Cliente guardar(Cliente cliente) {
+<b class="fc">&nbsp;        return clienteRepository.save(cliente);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void eliminar(Cliente cliente) {
+<b class="fc">&nbsp;        cliente.setEstado(1);  </b>
+<b class="fc">&nbsp;        clienteRepository.save(cliente);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Cliente&gt; listar(String consulta) {
+<b class="fc">&nbsp;         return clienteRepository.buscarNoEliminados(consulta);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Page&lt;Cliente&gt; getClientes(Pageable pageable) {
+<b class="fc">&nbsp;        return clienteRepository.findAll(pageable);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Page&lt;ClienteDTO&gt; findPaginated(Pageable pageable, List&lt;ClienteDTO&gt; clientes) {
+<b class="fc">&nbsp;        int pageSize = pageable.getPageSize();</b>
+<b class="fc">&nbsp;        int currentPage = pageable.getPageNumber();</b>
+<b class="fc">&nbsp;        int startItem = currentPage * pageSize;</b>
+&nbsp;        List&lt;ClienteDTO&gt; list;
+<b class="pc">&nbsp;        if (clientes.size() &lt; startItem) {</b>
+<b class="nc">&nbsp;            list = Collections.emptyList();</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            int toIndex = Math.min(startItem + pageSize, clientes.size());</b>
+<b class="fc">&nbsp;            list = clientes.subList(startItem, toIndex);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Page&lt;ClienteDTO&gt; bookPage</b>
+<b class="fc">&nbsp;                = new PageImpl&lt;ClienteDTO&gt;(list, PageRequest.of(currentPage, pageSize), clientes.size());</b>
+&nbsp;
+<b class="fc">&nbsp;        return bookPage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ClienteDTO update(ClienteDTO modelRecibido, Cliente model) {
+<b class="fc">&nbsp;        model.setCelular(modelRecibido.getCelular());</b>
+<b class="fc">&nbsp;        model.setContacto(modelRecibido.getContacto());</b>
+<b class="fc">&nbsp;        model.setRazonSocial(modelRecibido.getRazonSocial());</b>
+<b class="fc">&nbsp;        model.setLetra(modelRecibido.getLetra());</b>
+<b class="fc">&nbsp;        model.setMail(modelRecibido.getMail());</b>
+<b class="fc">&nbsp;        model.setFechaInicio(modelRecibido.getFechaInicio());</b>
+<b class="fc">&nbsp;        model.setFechaNacimiento(modelRecibido.getFechaNacimiento());</b>
+&nbsp;
+<b class="fc">&nbsp;        clienteRepository.save(model);</b>
+&nbsp;
+<b class="fc">&nbsp;        return new ClienteDTO(model);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    private List&lt;ClienteDTO&gt; convertListOfClienteToDTO(List&lt;Cliente&gt; list) {
+<b class="fc">&nbsp;        List&lt;ClienteDTO&gt; result = new ArrayList&lt;&gt;();</b>
+&nbsp;        
+<b class="fc">&nbsp;        list.forEach((model) -&gt; {</b>
+<b class="fc">&nbsp;            result.add(new ClienteDTO(model));</b>
+&nbsp;        });
+&nbsp;
+<b class="fc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-05 23:41</div>
+</div>
+</body>
+</html>

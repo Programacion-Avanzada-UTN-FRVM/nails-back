@@ -1,0 +1,225 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ItemServicio</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">jsges.nails.domain</a>
+</div>
+
+<h1>Coverage Summary for Class: ItemServicio (jsges.nails.domain)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ItemServicio</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.1%
+  </span>
+  <span class="absValue">
+    (8/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (22/22)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ItemServicio$HibernateInstantiator$8pGW3TyI</td>
+  </tr>
+  <tr>
+    <td class="name">ItemServicio$HibernateProxy$xzVNav8i</td>
+  </tr>
+  <tr>
+    <td class="name">ItemServicio$ItemServicioBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (16/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.1%
+  </span>
+  <span class="absValue">
+    (8/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/23)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package jsges.nails.domain;
+&nbsp;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;import jakarta.persistence.CascadeType;
+&nbsp;import jakarta.persistence.Column;
+&nbsp;import jakarta.persistence.Entity;
+&nbsp;import jakarta.persistence.GeneratedValue;
+&nbsp;import jakarta.persistence.GenerationType;
+&nbsp;import jakarta.persistence.Id;
+&nbsp;import jakarta.persistence.JoinColumn;
+&nbsp;import jakarta.persistence.ManyToOne;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import lombok.Builder;
+&nbsp;import lombok.Data;
+&nbsp;import lombok.NoArgsConstructor;
+&nbsp;import lombok.ToString;
+&nbsp;
+&nbsp;@Entity
+<b class="fc">&nbsp;@Data</b>
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+<b class="fc">&nbsp;@NoArgsConstructor</b>
+<b class="fc">&nbsp;@ToString</b>
+<b class="fc">&nbsp;@Builder</b>
+&nbsp;public class ItemServicio {
+&nbsp;
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+<b class="fc">&nbsp;    private Integer id;</b>
+&nbsp;
+<b class="fc">&nbsp;    int estado;</b>
+&nbsp;
+&nbsp;    @Column(columnDefinition = &quot;TEXT&quot;)
+<b class="fc">&nbsp;    String observacion;</b>
+&nbsp;
+&nbsp;    @ManyToOne(cascade = CascadeType.ALL) //no deberia existir esta relacion, el servicio deberia tener el tipo
+<b class="fc">&nbsp;    private TipoServicio tipoServicio;</b>
+&nbsp;
+&nbsp;    @ManyToOne(cascade = CascadeType.ALL)
+&nbsp;    @JoinColumn
+<b class="fc">&nbsp;    private Servicio servicio;</b>
+&nbsp;
+<b class="fc">&nbsp;    private Double precio;</b>
+&nbsp;
+&nbsp;    public void eliminar() {
+<b class="fc">&nbsp;        this.setEstado(1);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="pc">&nbsp;        if (this == o) return true;</b>
+<b class="pc">&nbsp;        if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="fc">&nbsp;        ItemServicio that = (ItemServicio) o;</b>
+<b class="pc">&nbsp;        return estado == that.estado &amp;&amp; Objects.equals(id, that.id) &amp;&amp; Objects.equals(observacion, that.observacion) &amp;&amp; Objects.equals(tipoServicio, that.tipoServicio) &amp;&amp; Objects.equals(servicio, that.servicio);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="fc">&nbsp;        return Objects.hash(id, estado, observacion, tipoServicio, servicio);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public ItemServicio(Servicio servicio ,TipoServicio tipo, Double precio,String observacion) {</b>
+<b class="fc">&nbsp;        this.servicio = servicio;</b>
+<b class="fc">&nbsp;        this.tipoServicio = tipo;</b>
+<b class="fc">&nbsp;        this.precio = precio;</b>
+<b class="fc">&nbsp;        this.observacion=observacion;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-05 23:41</div>
+</div>
+</body>
+</html>

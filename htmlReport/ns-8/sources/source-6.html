@@ -1,0 +1,99 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ServicioRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">jsges.nails.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: ServicioRepository (jsges.nails.repository)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">ServicioRepository$MockitoMock$Z2vIay7t</td>
+  </tr>
+  <tr>
+    <td class="name">ServicioRepository$MockitoMock$Z2vIay7t$auxiliary$wT8WWKnd</td>
+  </tr>
+  <tr>
+    <td class="name">ServicioRepository$MockitoMock$Z2vIay7t$auxiliary$zJq4vmHD</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package jsges.nails.repository;
+&nbsp;import jsges.nails.domain.ArticuloVenta;
+&nbsp;import jsges.nails.domain.Servicio;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.query.Param;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public interface ServicioRepository extends JpaRepository&lt;Servicio, Integer&gt; {
+&nbsp;
+&nbsp;    @Query(&quot;select p from Servicio p  where p.estado=0 &quot;)
+&nbsp;    List&lt;Servicio&gt; buscarNoEliminados();
+&nbsp;
+&nbsp;    @Query(&quot;SELECT p FROM Servicio p WHERE p.estado = 0 &quot;)
+&nbsp;    List&lt;Servicio&gt; buscarExacto();
+&nbsp;
+&nbsp;    @Query(&quot;SELECT p FROM Servicio p WHERE p.estado = 0&quot;)
+&nbsp;    List&lt;Servicio&gt; buscarNoEliminados(@Param(&quot;consulta&quot;) String consulta);
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-05 23:41</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,226 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArticuloVentaController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">jsges.nails.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ArticuloVentaController (jsges.nails.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArticuloVentaController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14.3%
+  </span>
+  <span class="absValue">
+    (1/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    4%
+  </span>
+  <span class="absValue">
+    (1/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package jsges.nails.controller;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.PageRequest;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.CrossOrigin;
+&nbsp;import org.springframework.web.bind.annotation.DeleteMapping;
+&nbsp;import org.springframework.web.bind.annotation.GetMapping;
+&nbsp;import org.springframework.web.bind.annotation.PathVariable;
+&nbsp;import org.springframework.web.bind.annotation.PostMapping;
+&nbsp;import org.springframework.web.bind.annotation.PutMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+&nbsp;import org.springframework.web.bind.annotation.RestController;
+&nbsp;
+&nbsp;import jsges.nails.domain.ArticuloVenta;
+&nbsp;import jsges.nails.dto.ArticuloVentaDTO;
+&nbsp;import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
+&nbsp;import jsges.nails.service.IArticuloVentaService;
+&nbsp;import lombok.NoArgsConstructor;
+&nbsp;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(value=&quot;${path_mapping}&quot;)
+&nbsp;@CrossOrigin(value=&quot;${path_cross}&quot;)
+&nbsp;@NoArgsConstructor
+&nbsp;public class ArticuloVentaController {
+&nbsp;
+<b class="fc">&nbsp;    private static final Logger log = LoggerFactory.getLogger(ArticuloVentaController.class);</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private IArticuloVentaService modelService;
+&nbsp;
+&nbsp;
+&nbsp;    @GetMapping({&quot;/articulos&quot;})
+&nbsp;    public ResponseEntity&lt;List&lt;ArticuloVentaDTO&gt;&gt; getAll() {
+&nbsp;
+<b class="nc">&nbsp;        return ResponseEntity.ok(modelService.listar());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping({&quot;/articulosPageQuery&quot;})
+&nbsp;    public ResponseEntity&lt;Page&lt;ArticuloVentaDTO&gt;&gt; getItems(@RequestParam(defaultValue = &quot;&quot;) String consulta, @RequestParam(defaultValue = &quot;0&quot;) int page,
+&nbsp;                                                        @RequestParam(defaultValue = &quot;${max_page}&quot;) int size) {
+&nbsp;        
+<b class="nc">&nbsp;        Page&lt;ArticuloVentaDTO&gt; bookPage = modelService</b>
+<b class="nc">&nbsp;            .findPaginated(PageRequest.of(page, size), modelService.listar(consulta));</b>
+&nbsp;
+<b class="nc">&nbsp;        return ResponseEntity.ok(bookPage);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(&quot;/articulos&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; agregar(@RequestBody ArticuloVentaDTO model) {
+&nbsp;        ArticuloVenta result;
+&nbsp;        
+&nbsp;        try {
+<b class="nc">&nbsp;            result = modelService.guardar(model);</b>
+&nbsp;        } catch (Exception e) {
+<b class="nc">&nbsp;            return ResponseEntity.internalServerError().body(e);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        log.info(&quot;Articulo guardado con exito&quot;);</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(result);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @DeleteMapping(&quot;/articuloEliminar/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; eliminar(@PathVariable(&quot;id&quot;) int id) {
+&nbsp;        ArticuloVenta model;
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            model = modelService.buscarPorId(id);</b>
+<b class="nc">&nbsp;            modelService.eliminar(model);</b>
+&nbsp;        } catch (RecursoNoEncontradoExcepcion notFound) {
+<b class="nc">&nbsp;            return ResponseEntity.notFound().build();</b>
+&nbsp;        } catch (Exception e) {
+<b class="nc">&nbsp;            return ResponseEntity.internalServerError().body(e);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        log.info(String.format(&quot;Articulo con id %o eliminado con exito&quot;, id));</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/articulos/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; getPorId(@PathVariable int id) {
+&nbsp;        ArticuloVenta articuloVenta;
+&nbsp;            
+&nbsp;        try {
+<b class="nc">&nbsp;            articuloVenta = modelService.buscarPorId(id);</b>
+&nbsp;        } catch (RecursoNoEncontradoExcepcion notFound) {
+<b class="nc">&nbsp;            return ResponseEntity.notFound().build();</b>
+&nbsp;        } catch (Exception e) {
+<b class="nc">&nbsp;            return ResponseEntity.internalServerError().body(e);</b>
+&nbsp;        }
+&nbsp;        
+<b class="nc">&nbsp;        return ResponseEntity.ok(new ArticuloVentaDTO(articuloVenta));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PutMapping(&quot;/articulos/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; actualizar(@PathVariable int id,
+&nbsp;                                                    @RequestBody ArticuloVentaDTO modelRecibido) {
+&nbsp;
+&nbsp;        ArticuloVenta model;   
+&nbsp;                                                     
+&nbsp;        try {
+<b class="nc">&nbsp;            model = modelService.buscarPorId(id);</b>
+<b class="nc">&nbsp;            modelService.update(modelRecibido, model);</b>
+&nbsp;        } catch (RecursoNoEncontradoExcepcion notFound) {
+<b class="nc">&nbsp;            return ResponseEntity.notFound().build();</b>
+&nbsp;        } catch (Exception e) {
+<b class="nc">&nbsp;            return ResponseEntity.internalServerError().body(e);</b>
+&nbsp;        }                          
+&nbsp;
+<b class="nc">&nbsp;        log.info(String.format(&quot;Articulo con id %o actualizado con exito&quot;, id));</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(model);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-05 23:41</div>
+</div>
+</body>
+</html>
